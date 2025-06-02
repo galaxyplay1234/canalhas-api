@@ -124,7 +124,7 @@
 
     function carregarJogos(tipo = "ultimos") {
       jogosDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
-      fetch("https://canalhas-api.vercel.app/api/jogos")
+      fetch("https://canalhas-api.vercel.app/api/agenda")
         .then(res => res.json())
         .then(data => {
           const jogos = data[tipo];
