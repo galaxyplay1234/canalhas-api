@@ -60,33 +60,45 @@
       text-align: center;
     }
 
-    .escudos {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 10px 0;
-    }
-
-    .escudos img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-
-    .vs {
-      font-size: 16px;
-      font-weight: bold;
-    }
-
     .info {
       font-size: 13px;
       color: #555;
+      margin-bottom: 5px;
     }
 
-    .placar {
-      font-size: 18px;
+    .escudos {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 10px 0 5px;
+    }
+
+    .escudo-time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90px;
+    }
+
+    .escudo-time img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-bottom: 4px;
+    }
+
+    .escudo-time span {
+      font-size: 13px;
+      color: #333;
+      margin-top: 2px;
+      text-align: center;
+    }
+
+    .vs {
+      font-size: 22px;
       font-weight: bold;
-      margin: 10px 0;
+      margin: 0 5px;
+      color: #111;
     }
   </style>
 </head>
@@ -113,11 +125,16 @@
           <div class="info">${jogo.dataHora || ""}</div>
           ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
           <div class="escudos">
-            <div><img src="${jogo.escudoA}" alt="escudo" /></div>
+            <div class="escudo-time">
+              <img src="${jogo.escudoA}" alt="escudoA" />
+              <span>${jogo.timeA}</span>
+            </div>
             <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
-            <div><img src="${jogo.escudoB}" alt="escudo" /></div>
+            <div class="escudo-time">
+              <img src="${jogo.escudoB}" alt="escudoB" />
+              <span>${jogo.timeB}</span>
+            </div>
           </div>
-          <div class="info">${jogo.timeA} &nbsp;&nbsp;&nbsp;&nbsp; ${jogo.timeB}</div>
         </div>
       `;
     }
@@ -151,7 +168,6 @@
       carregarJogos("proximos");
     };
 
-    // Carregar por padrão
     carregarJogos("ultimos");
   </script>
 </body>
