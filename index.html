@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
   <title>Canalhas FC - Jogos</title>
   <style>
     body {
@@ -14,31 +15,9 @@
 
     h1 {
       text-align: center;
-      padding: 20px 20px 10px;
+      padding: 20px;
       font-size: 26px;
       color: #222;
-      margin-bottom: 0;
-    }
-
-    .destaque {
-      background: linear-gradient(90deg, #4e54c8, #8f94fb);
-      color: white;
-      padding: 20px;
-      text-align: center;
-      border-radius: 10px;
-      max-width: 600px;
-      margin: 15px auto 10px;
-    }
-
-    .destaque small {
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .destaque strong {
-      font-size: 22px;
-      display: block;
-      margin-top: 5px;
     }
 
     .tabs {
@@ -73,14 +52,16 @@
       padding: 15px;
       max-width: 600px;
       margin: 0 auto;
+      margim-bottom: 0px;
     }
 
     .card {
       background: #fff;
       border-radius: 12px;
-      padding: 10px;
+      padding: 10px 10px 5px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       text-align: center;
+      
     }
 
     .info {
@@ -90,53 +71,52 @@
     }
 
     .escudos {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 15px;
-      margin: 10px 0 5px;
-    }
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 15px; /* deixa mais centralizado */
+  margin: 10px 0 5px;
+}
 
-    .escudo-time {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      width: 100px;
-      min-height: 90px;
-    }
+.escudo-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  padding: 0;
+}
 
-    .escudo-time img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      margin-bottom: 6px;
-    }
+.escudo-time img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: 6px;
+}
 
-    .escudo-time span {
-      font-size: 13px;
-      color: #333;
-      text-align: center;
-      line-height: 1.2;
-      word-break: break-word;
-      margin-bottom: 0px;
-    }
+.escudo-time span {
+  font-size: 13px;
+  color: #333;
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+  margin-bottom: 0px;
+}
 
-    .vs {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      font-size: 24px;
-      font-weight: bold;
-      line-height: 48px;
-      min-width: 40px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+.vs {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  line-height: 48px; /* altura do escudo */
+  min-width: 40px;
+}
   </style>
 </head>
 <body>
   <h1>Canalhas FC - Jogos</h1>
-  <div id="destaque-jogo" class="destaque" style="display:none;"></div>
 
   <div class="tabs">
     <button id="btn-ultimos" class="tab-btn active">Últimos Jogos</button>
@@ -149,7 +129,6 @@
 
   <script>
     const jogosDiv = document.getElementById("jogos");
-    const destaqueDiv = document.getElementById("destaque-jogo");
     const btnUltimos = document.getElementById("btn-ultimos");
     const btnProximos = document.getElementById("btn-proximos");
 
@@ -173,24 +152,6 @@
       `;
     }
 
-    function exibirDestaque(proximos) {
-      if (!proximos || !proximos.length) return;
-      const hoje = new Date();
-      const maisProximo = proximos.find(j => {
-        const data = new Date(j.dataHora);
-        return !isNaN(data.getTime()) && data >= hoje;
-      }) || proximos[0];
-
-      if (maisProximo) {
-        destaqueDiv.innerHTML = `
-          <small>Próximo Jogo</small>
-          <strong>${maisProximo.dataHora || ""}</strong>
-          <div style="margin-top:5px;">${maisProximo.timeA} vs ${maisProximo.timeB}</div>
-        `;
-        destaqueDiv.style.display = "block";
-      }
-    }
-
     function carregarJogos(tipo = "ultimos") {
       jogosDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
       fetch("https://canalhas-api.vercel.app/api/agenda")
@@ -201,9 +162,6 @@
             jogosDiv.innerHTML = `<p style="text-align:center;">Nenhum jogo encontrado.</p>`;
             return;
           }
-          if (tipo === "proximos") exibirDestaque(jogos);
-          else destaqueDiv.style.display = "none";
-
           jogosDiv.innerHTML = jogos.map(j => criarCard(j, tipo === "ultimos")).join("");
         })
         .catch(() => {
