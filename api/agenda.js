@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     $('a[href^="/games/"]').each((_, el) => {
       const bloco = $(el);
 
-      // Detectar se é jogo passado ou futuro
+      // Placar
       const gols = bloco.find("span.text-bold.text-lg");
       const golsA = $(gols.get(0))?.text().trim();
       const golsB = $(gols.get(1))?.text().trim();
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       const escudoA = $(imgs.get(0))?.attr("src") || "";
       const escudoB = $(imgs.get(1))?.attr("src") || "";
 
-      // Times e textos: dependem do tipo do jogo
+      // Campos
       let timeA = "", timeB = "", dataHora = "", local = "";
 
       if (golsA && golsB) {
@@ -32,7 +32,15 @@ module.exports = async (req, res) => {
         timeA = bloco.find("p.text-right.text-xs").text().trim();
         timeB = bloco.find("p.text-left.text-xs").text().trim();
         dataHora = bloco.find("span.text-xs.font-bold").text().trim();
-        local = ""; // local geralmente não aparece nos jogos passados
+
+        // Puxar o local se existir
+        bloco.find("p.text-xs.text-neutral-white").each((i, e) => {
+          const texto = $(e).text().trim();
+          if (!texto.includes("•")) {
+            local = texto;
+          }
+        });
+
       } else {
         // Próximos jogos
         const times = bloco.find('p.text-sm.text-neutral-white');
