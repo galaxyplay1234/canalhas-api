@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     $('a[href^="/games/"]').each((_, el) => {
       const bloco = $(el);
 
-      // Verifica se é um jogo finalizado (com placar)
+      // Placar
       const gols = bloco.find("span.text-bold.text-lg");
       const golsA = $(gols.get(0))?.text().trim();
       const golsB = $(gols.get(1))?.text().trim();
@@ -27,33 +27,27 @@ module.exports = async (req, res) => {
       let timeA = "", timeB = "", dataHora = "", local = "";
 
       if (golsA && golsB) {
-        // ÚLTIMOS JOGOS
+        // Últimos jogos
         timeA = bloco.find("p.text-right.text-xs").text().trim();
         timeB = bloco.find("p.text-left.text-xs").text().trim();
         dataHora = bloco.find("span.text-xs.font-bold").text().trim();
 
-        // Local se existir
-        bloco.find("p.text-xs.text-neutral-white").each((i, e) => {
-          const texto = $(e).text().trim();
-          if (!texto.includes("•")) {
-            local = texto;
-          }
+        bloco.find("p.text-xs.text-neutral-white").each((_, p) => {
+          const texto = $(p).text().trim();
+          if (!texto.includes("•")) local = texto;
         });
 
       } else {
-        // PRÓXIMOS JOGOS
-        const times = [];
-        bloco.find('p.text-sm.text-neutral-white').each((i, el) => {
-          const nome = $(el).text().trim();
-          if (nome && !nome.toLowerCase().includes("detalhe")) {
-            times.push(nome);
-          }
-        });
-        timeA = times[0] || "";
-        timeB = times[1] || "";
+        // Próximos jogos
 
-        bloco.find("div.flex.flex-col.px-3 p.text-xs").each((i, e) => {
-          const texto = $(e).text().trim();
+        // Nomes dos times (vem logo após o escudo)
+        const blocosTime = bloco.find("div.flex.items-center.gap-2.px-3");
+        timeA = $(blocosTime.get(0)).find("p").text().trim();
+        timeB = $(blocosTime.get(1)).find("p").text().trim();
+
+        // Data e local
+        bloco.find("div.flex.flex-col.px-3 p.text-xs").each((_, p) => {
+          const texto = $(p).text().trim();
           if (texto.includes("•")) dataHora = texto;
           else local = texto;
         });
@@ -65,7 +59,7 @@ module.exports = async (req, res) => {
         timeA,
         escudoA: escudoA.startsWith("/") ? "https://jogueiros.com" + escudoA : escudoA,
         timeB,
-        escudoB: escudoB.startsWith("/") ? "https://jogueiros.com" + escudoB : escudoB
+        escudoB: escudoB.startsWith("/") ? "https://jogueiros.com" + escudoB : escudoB,
       };
 
       if (golsA && golsB) {
