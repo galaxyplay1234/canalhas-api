@@ -6,102 +6,87 @@
   <title>Canalhas FC - Jogos</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Arial', sans-serif;
+      background: #f3f3f3;
       margin: 0;
-      padding: 20px;
+      padding: 0;
     }
 
     h1 {
       text-align: center;
+      padding: 20px;
+      font-size: 26px;
       color: #222;
-      margin-bottom: 10px;
     }
 
     .tabs {
       display: flex;
       justify-content: center;
-      margin-bottom: 20px;
+      background: #ffffff;
+      padding: 10px;
+      gap: 10px;
     }
 
-    .tab {
-      padding: 10px 20px;
-      margin: 0 5px;
-      background: #ccc;
-      border-radius: 5px;
+    .tab-btn {
+      padding: 10px 18px;
+      border-radius: 25px;
+      border: none;
+      background: #e0e0e0;
+      color: #333;
+      font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s;
     }
 
-    .tab.active {
-      background: #6c63ff;
+    .tab-btn.active {
+      background: #8b5e3c;
       color: #fff;
     }
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-    }
-
-    .jogo {
-      background: #fff;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      padding: 15px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-
-    .data {
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 5px;
-    }
-
-    .local {
-      text-align: center;
-      font-size: 12px;
-      color: #999;
-      margin-bottom: 10px;
-    }
-
-    .conteudo {
+    .cards {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    .time {
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       text-align: center;
-      width: 100px;
     }
 
-    .time img {
-      width: 50px;
-      height: 50px;
+    .escudos {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .escudos img {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      object-fit: cover;
     }
 
-    .time span {
-      display: block;
-      margin-top: 5px;
-      font-size: 14px;
+    .vs {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .info {
+      font-size: 13px;
+      color: #555;
     }
 
     .placar {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: bold;
-      color: #333;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .erro {
-      text-align: center;
-      color: red;
-      margin-top: 20px;
+      margin: 10px 0;
     }
   </style>
 </head>
@@ -109,66 +94,65 @@
   <h1>Canalhas FC - Jogos</h1>
 
   <div class="tabs">
-    <div class="tab active" onclick="mostrar('ultimos')">Últimos Jogos</div>
-    <div class="tab" onclick="mostrar('proximos')">Próximos Jogos</div>
+    <button id="btn-ultimos" class="tab-btn active">Últimos Jogos</button>
+    <button id="btn-proximos" class="tab-btn">Próximos Jogos</button>
   </div>
 
-  <div class="container">
-    <div id="ultimos"></div>
-    <div id="proximos" class="hidden"></div>
+  <div id="jogos" class="cards">
+    <p style="text-align:center;">Carregando jogos...</p>
   </div>
 
   <script>
-    function mostrar(tipo) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.container > div').forEach(c => c.classList.add('hidden'));
-      document.querySelector(`.tab[onclick="mostrar('${tipo}')"]`).classList.add('active');
-      document.getElementById(tipo).classList.remove('hidden');
-    }
+    const jogosDiv = document.getElementById("jogos");
+    const btnUltimos = document.getElementById("btn-ultimos");
+    const btnProximos = document.getElementById("btn-proximos");
 
-    fetch("https://canalhas-api.vercel.app/api/agenda")
-      .then(res => res.json())
-      .then(json => {
-        renderizar(json.ultimos, 'ultimos', true);
-        renderizar(json.proximos, 'proximos', false);
-      })
-      .catch(() => {
-        document.getElementById('ultimos').innerHTML = '<p class="erro">Erro ao carregar os jogos.</p>';
-        document.getElementById('proximos').innerHTML = '<p class="erro">Erro ao carregar os jogos.</p>';
-      });
-
-    function renderizar(lista, containerId, mostrarPlacar) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-
-      if (!lista.length) {
-        container.innerHTML = '<p style="text-align:center;color:#999;">Nenhum jogo encontrado.</p>';
-        return;
-      }
-
-      lista.forEach(jogo => {
-        const el = document.createElement('div');
-        el.className = 'jogo';
-        el.innerHTML = `
-          <div class="data">${jogo.dataHora}</div>
-          ${jogo.local ? `<div class="local">${jogo.local}</div>` : ""}
-          <div class="conteudo">
-            <div class="time">
-              <img src="${jogo.escudoA}" alt="${jogo.timeA}">
-              <span>${jogo.timeA}</span>
-            </div>
-            <div class="placar">
-              ${mostrarPlacar ? `${jogo.golsA} x ${jogo.golsB}` : 'vs'}
-            </div>
-            <div class="time">
-              <img src="${jogo.escudoB}" alt="${jogo.timeB}">
-              <span>${jogo.timeB}</span>
-            </div>
+    function criarCard(jogo, isPassado = false) {
+      return `
+        <div class="card">
+          <div class="info">${jogo.dataHora || ""}</div>
+          ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
+          <div class="escudos">
+            <div><img src="${jogo.escudoA}" alt="escudo" /></div>
+            <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
+            <div><img src="${jogo.escudoB}" alt="escudo" /></div>
           </div>
-        `;
-        container.appendChild(el);
-      });
+          <div class="info">${jogo.timeA} &nbsp;&nbsp;&nbsp;&nbsp; ${jogo.timeB}</div>
+        </div>
+      `;
     }
+
+    function carregarJogos(tipo = "ultimos") {
+      jogosDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
+      fetch("https://canalhas-api.vercel.app/api/jogos")
+        .then(res => res.json())
+        .then(data => {
+          const jogos = data[tipo];
+          if (!jogos || !jogos.length) {
+            jogosDiv.innerHTML = `<p style="text-align:center;">Nenhum jogo encontrado.</p>`;
+            return;
+          }
+          jogosDiv.innerHTML = jogos.map(j => criarCard(j, tipo === "ultimos")).join("");
+        })
+        .catch(() => {
+          jogosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
+        });
+    }
+
+    btnUltimos.onclick = () => {
+      btnUltimos.classList.add("active");
+      btnProximos.classList.remove("active");
+      carregarJogos("ultimos");
+    };
+
+    btnProximos.onclick = () => {
+      btnProximos.classList.add("active");
+      btnUltimos.classList.remove("active");
+      carregarJogos("proximos");
+    };
+
+    // Carregar por padrão
+    carregarJogos("ultimos");
   </script>
 </body>
 </html>
