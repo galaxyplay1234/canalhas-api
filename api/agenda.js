@@ -7,7 +7,6 @@ module.exports = async (req, res) => {
   try {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
-
     const jogos = [];
 
     $('div.flex.bg-neutral-white').each((_, el) => {
@@ -18,14 +17,19 @@ module.exports = async (req, res) => {
       const golsB = $(gols.get(1)).text().trim();
       const timeB = $(el).find('p.text-left.text-xs').text().trim();
 
-      // Só considera como jogo encerrado se os placares existirem
+      const imagens = $(el).find('img[alt="team_shield"]');
+      const escudoA = $(imagens.get(0)).attr('src') || '';
+      const escudoB = $(imagens.get(1)).attr('src') || '';
+
       if (dataHora && timeA && golsA && golsB && timeB) {
         jogos.push({
           dataHora,
           timeA,
+          escudoA: escudoA.startsWith('/') ? 'https://jogueiros.com' + escudoA : escudoA,
           golsA,
           golsB,
-          timeB
+          timeB,
+          escudoB: escudoB.startsWith('/') ? 'https://jogueiros.com' + escudoB : escudoB
         });
       }
     });
