@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
   <title>Canalhas FC - Jogos</title>
   <style>
     body {
@@ -18,6 +17,50 @@
       padding: 20px;
       font-size: 26px;
       color: #222;
+    }
+
+    .highlight-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to right, #5c4033, #a0a0a0); /* marrom + cinza */
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .highlight-team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 30%;
+    }
+
+    .highlight-team img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      margin-bottom: 6px;
+    }
+
+    .highlight-vs {
+      width: 40%;
+    }
+
+    .highlight-vs time {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .highlight-vs .hora {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    .highlight-vs .local {
+      font-size: 12px;
+      opacity: 0.9;
     }
 
     .tabs {
@@ -52,16 +95,14 @@
       padding: 15px;
       max-width: 600px;
       margin: 0 auto;
-      margim-bottom: 0px;
     }
 
     .card {
       background: #fff;
       border-radius: 12px;
-      padding: 10px 10px 5px;
+      padding: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       text-align: center;
-      
     }
 
     .info {
@@ -71,66 +112,66 @@
     }
 
     .escudos {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 15px; /* deixa mais centralizado */
-  margin: 10px 0 5px;
-}
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 10px 0 5px;
+    }
 
-.escudo-time {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  padding: 0;
-}
+    .escudo-time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100px;
+      min-height: 90px;
+    }
 
-.escudo-time img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  margin-bottom: 6px;
-}
+    .escudo-time img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-bottom: 6px;
+    }
 
-.escudo-time span {
-  font-size: 13px;
-  color: #333;
-  text-align: center;
-  line-height: 1.2;
-  word-break: break-word;
-  margin-bottom: 0px;
-}
+    .escudo-time span {
+      font-size: 13px;
+      color: #333;
+      text-align: center;
+      line-height: 1.2;
+      word-break: break-word;
+      margin-bottom: 0px;
+    }
 
-.vs {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  font-size: 25px;
-  font-weight: 600;
-  font-family: 'Poppins', sans-serif;
-  line-height: 48px; /* altura do escudo */
-  min-width: 40px;
-}
+    .vs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      font-weight: bold;
+      min-width: 40px;
+      font-family: 'Segoe UI', sans-serif;
+    }
   </style>
 </head>
 <body>
   <h1>Canalhas FC - Jogos</h1>
+
+  <div id="highlight"></div>
 
   <div class="tabs">
     <button id="btn-ultimos" class="tab-btn active">Últimos Jogos</button>
     <button id="btn-proximos" class="tab-btn">Próximos Jogos</button>
   </div>
 
-  <div id="jogos" class="cards">
-    <p style="text-align:center;">Carregando jogos...</p>
-  </div>
+  <div id="jogos" class="cards"><p style="text-align:center;">Carregando jogos...</p></div>
 
   <script>
     const jogosDiv = document.getElementById("jogos");
     const btnUltimos = document.getElementById("btn-ultimos");
     const btnProximos = document.getElementById("btn-proximos");
+    const highlightDiv = document.getElementById("highlight");
 
     function criarCard(jogo, isPassado = false) {
       return `
@@ -139,17 +180,35 @@
           ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
           <div class="escudos">
             <div class="escudo-time">
-              <img src="${jogo.escudoA}" alt="escudoA" />
+              <img src="${jogo.escudoA}" />
               <span>${jogo.timeA}</span>
             </div>
             <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
             <div class="escudo-time">
-              <img src="${jogo.escudoB}" alt="escudoB" />
+              <img src="${jogo.escudoB}" />
               <span>${jogo.timeB}</span>
             </div>
           </div>
-        </div>
-      `;
+        </div>`;
+    }
+
+    function criarHighlight(jogo) {
+      return `
+        <div class="highlight-card">
+          <div class="highlight-team">
+            <img src="${jogo.escudoA}" />
+            <strong>${jogo.timeA}</strong>
+          </div>
+          <div class="highlight-vs">
+            <time>${jogo.dataHora?.split("•")[0]?.trim() || ""}</time>
+            <div class="hora">${jogo.dataHora?.split("•")[1]?.trim() || ""}</div>
+            <div class="local">${jogo.local || ""}</div>
+          </div>
+          <div class="highlight-team">
+            <img src="${jogo.escudoB}" />
+            <strong>${jogo.timeB}</strong>
+          </div>
+        </div>`;
     }
 
     function carregarJogos(tipo = "ultimos") {
@@ -163,6 +222,11 @@
             return;
           }
           jogosDiv.innerHTML = jogos.map(j => criarCard(j, tipo === "ultimos")).join("");
+
+          if (tipo === "ultimos") return;
+          if (data.proximos.length > 0) {
+            highlightDiv.innerHTML = criarHighlight(data.proximos[0]);
+          }
         })
         .catch(() => {
           jogosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
@@ -181,7 +245,15 @@
       carregarJogos("proximos");
     };
 
-    carregarJogos("ultimos");
+    // Carrega a primeira vez
+    fetch("https://canalhas-api.vercel.app/api/agenda")
+      .then(res => res.json())
+      .then(data => {
+        if (data.proximos.length > 0) {
+          highlightDiv.innerHTML = criarHighlight(data.proximos[0]);
+        }
+        carregarJogos("ultimos");
+      });
   </script>
 </body>
 </html>
