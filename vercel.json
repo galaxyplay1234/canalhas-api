@@ -1,8 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "api/agenda.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  "builds": [
+    { "src": "api/agenda.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/agenda", "dest": "api/agenda.js" }
+  ]
 }
