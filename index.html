@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Últimos Jogos - Canalhas FC</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+    h1 { text-align: center; color: #333; }
+    .jogo {
+      background: #fff;
+      border-radius: 10px;
+      margin: 15px auto;
+      padding: 15px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    .data { text-align: center; color: #666; font-size: 14px; margin-bottom: 10px; }
+    .conteudo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100px;
+    }
+    .time img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .time span {
+      margin-top: 5px;
+      font-size: 14px;
+      text-align: center;
+    }
+    .placar {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Últimos Jogos - Canalhas FC</h1>
+  <div id="jogos">Carregando...</div>
 
+  <script>
+    fetch('https://canalhas-api.vercel.app/api/agenda')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('jogos');
+        container.innerHTML = '';
+        data.forEach(jogo => {
+          const el = document.createElement('div');
+          el.className = 'jogo';
+          el.innerHTML = `
+            <div class="data">${jogo.dataHora}</div>
+            <div class="conteudo">
+              <div class="time">
+                <img src="${jogo.escudoA}" alt="${jogo.timeA}">
+                <span>${jogo.timeA}</span>
+              </div>
+              <div class="placar">${jogo.golsA} x ${jogo.golsB}</div>
+              <div class="time">
+                <img src="${jogo.escudoB}" alt="${jogo.timeB}">
+                <span>${jogo.timeB}</span>
+              </div>
+            </div>
+          `;
+          container.appendChild(el);
+        });
+      })
+      .catch(() => {
+        document.getElementById('jogos').innerText = 'Erro ao carregar os jogos.';
+      });
+  </script>
+</body>
+</html>
