@@ -13,11 +13,13 @@ module.exports = async (req, res) => {
     $('div.flex.bg-neutral-white').each((_, el) => {
       const dataHora = $(el).find('span.text-xs.font-bold').text().trim();
       const timeA = $(el).find('p.text-right.text-xs').text().trim();
-      const golsA = $(el).find('div.flex.items-center.gap-1 span.text-bold.text-lg').first().text().trim();
-      const golsB = $(el).find('div.flex.items-center.gap-1 span.text-bold.text-lg').last().text().trim();
+      const gols = $(el).find('div.flex.items-center.gap-1 span.text-bold.text-lg');
+      const golsA = $(gols.get(0)).text().trim();
+      const golsB = $(gols.get(1)).text().trim();
       const timeB = $(el).find('p.text-left.text-xs').text().trim();
 
-      if (dataHora && timeA && timeB && golsA && golsB) {
+      // Só considera como jogo encerrado se os placares existirem
+      if (dataHora && timeA && golsA && golsB && timeB) {
         jogos.push({
           dataHora,
           timeA,
@@ -31,6 +33,6 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.json(jogos);
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao extrair últimos jogos.' });
+    res.status(500).json({ error: 'Erro ao capturar os últimos jogos.' });
   }
 };
