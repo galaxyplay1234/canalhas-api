@@ -82,9 +82,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  width: 100px;
-  padding: 0;
+  justify-content: space-between; /* Isso força distribuir verticalmente */
+  width: 90px;
+  min-height: 90px;
+  height: 90px; /* Adiciona altura fixa */
+  box-sizing: border-box;
 }
 
 .escudo-time img {
@@ -100,7 +102,9 @@
   text-align: center;
   line-height: 1.2;
   word-break: break-word;
-  margin-bottom: 0px;
+  height: auto;
+  max-height: 32px; /* evita que estique muito */
+  overflow: hidden;
 }
 
 .vs {
