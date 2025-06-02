@@ -126,7 +126,7 @@
       document.getElementById(tipo).classList.remove('hidden');
     }
 
-    fetch("https://canalhas-api.vercel.app/api/jogos")
+    fetch("https://canalhas-api.vercel.app/api/agenda")
       .then(res => res.json())
       .then(json => {
         renderizar(json.ultimos, 'ultimos', true);
