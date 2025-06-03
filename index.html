@@ -224,6 +224,9 @@
       `;
     }
 
+    
+    }
+
     function carregarJogos(tipo = "ultimos") {
       jogosDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
       fetch("https://canalhas-api.vercel.app/api/agenda")
@@ -239,52 +242,6 @@
         .catch(() => {
           jogosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
         });
-    }
-
-    function carregarProximoDestaque() {
-      fetch("https://canalhas-api.vercel.app/api/agenda")
-        .then(res => res.json())
-        .then(data => {
-          const agora = new Date();
-
-          const jogosFuturos = (data.proximos || []).filter(jogo => {
-            if (!jogo.dataHora || !jogo.dataHora.includes("•")) return false;
-            const partes = jogo.dataHora.split("•")[1].trim().split(" ");
-            if (partes.length < 2) return false;
-
-            const [dia, mes, ano] = partes[0].split("/").map(Number);
-            const [hora, minuto] = partes[1].split(":").map(Number);
-            const dataJogo = new Date(ano, mes - 1, dia, hora, minuto);
-
-            return dataJogo > agora;
-          });
-
-          if (!jogosFuturos.length) {
-            document.getElementById("proximo-jogo-destaque").style.display = "none";
-            return;
-          }
-
-          jogosFuturos.sort((a, b) => {
-            const [d1, h1] = a.dataHora.split(/•/)[1].trim().split(" ");
-            const [d2, h2] = b.dataHora.split(/•/)[1].trim().split(" ");
-            const da = new Date(d1.split("/").reverse().join("/") + " " + h1);
-            const db = new Date(d2.split("/").reverse().join("/") + " " + h2);
-            return da - db;
-          });
-
-          const jogo = jogosFuturos[0];
-          document.getElementById("escudoA").src = jogo.escudoA;
-          document.getElementById("escudoB").src = jogo.escudoB;
-          document.getElementById("timeA").innerText = jogo.timeA;
-          document.getElementById("timeB").innerText = jogo.timeB;
-          document.getElementById("data-prox").innerText = jogo.dataHora;
-          document.getElementById("local-prox").innerText = jogo.local || "";
-          document.getElementById("proximo-jogo-destaque").style.display = "block";
-        })
-        .catch(() => {
-          document.getElementById("proximo-jogo-destaque").style.display = "none";
-        });
-    }
 
     carregarProximoDestaque();
 
