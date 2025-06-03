@@ -249,15 +249,13 @@
 
       const jogosFuturos = (data.proximos || []).filter(jogo => {
         if (!jogo.dataHora) return false;
+        const partes = jogo.dataHora.split("•")[1]?.trim().split(" ");
+        if (!partes || partes.length < 2) return false;
 
-        const partes = jogo.dataHora.split("•");
-        if (partes.length < 2) return false;
+        const [dia, mes, ano] = partes[0].split("/").map(Number);
+        const [hora, minuto] = partes[1].split(":").map(Number);
+        const dataJogo = new Date(ano, mes - 1, dia, hora, minuto);
 
-        const [data, hora] = partes[1].trim().split(" ");
-        const [dia, mes, ano] = data.split("/").map(Number);
-        const [h, m] = hora.split(":").map(Number);
-
-        const dataJogo = new Date(ano, mes - 1, dia, h, m);
         return dataJogo > agora;
       });
 
@@ -266,17 +264,13 @@
         return;
       }
 
+      // Ordena por data mais próxima
       jogosFuturos.sort((a, b) => {
-        const partesA = a.dataHora.split("•")[1].trim().split(" ");
-        const partesB = b.dataHora.split("•")[1].trim().split(" ");
-        const [diaA, mesA, anoA] = partesA[0].split("/").map(Number);
-        const [hA, mA] = partesA[1].split(":").map(Number);
-        const [diaB, mesB, anoB] = partesB[0].split("/").map(Number);
-        const [hB, mB] = partesB[1].split(":").map(Number);
-
-        const dataA = new Date(anoA, mesA - 1, diaA, hA, mA);
-        const dataB = new Date(anoB, mesB - 1, diaB, hB, mB);
-        return dataA - dataB;
+        const da = a.dataHora.split("•")[1].trim().split(" ");
+        const db = b.dataHora.split("•")[1].trim().split(" ");
+        const dateA = new Date(da[0].split("/").reverse().join("/") + " " + da[1]);
+        const dateB = new Date(db[0].split("/").reverse().join("/") + " " + db[1]);
+        return dateA - dateB;
       });
 
       const jogo = jogosFuturos[0];
@@ -293,7 +287,7 @@
     });
 }
 
-    
+    carregarProximoDestaque();
 
     btnUltimos.onclick = () => {
       btnUltimos.classList.add("active");
