@@ -19,60 +19,60 @@
       font-size: 26px;
       color: #222;
     }
-    
+
     .highlight-card {
-  background: url('https://cdn.pixabay.com/photo/2016/11/29/09/32/stadium-1867140_1280.jpg') no-repeat center center;
-  background-size: cover;
-  border-radius: 10px;
-  color: white;
-  padding: 15px 10px 10px;
-  margin: 0 auto 10px;
-  max-width: 600px;
-  text-align: center;
-  position: relative;
-}
+      background: url('https://cdn.pixabay.com/photo/2016/11/29/09/32/stadium-1867140_1280.jpg') no-repeat center center;
+      background-size: cover;
+      border-radius: 10px;
+      color: white;
+      padding: 15px 10px 10px;
+      margin: 0 auto 10px;
+      max-width: 600px;
+      text-align: center;
+      position: relative;
+    }
 
-.info-top {
-  font-size: 13px;
-  color: #eee;
-  margin-bottom: 10px;
-}
+    .info-top {
+      font-size: 13px;
+      color: #eee;
+      margin-bottom: 10px;
+    }
 
-.highlight-content {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 15px;
-}
+    .highlight-content {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 15px;
+    }
 
-.highlight-time {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 90px;
-}
+    .highlight-time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90px;
+    }
 
-.highlight-time img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: white;
-  padding: 3px;
-}
+    .highlight-time img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: white;
+      padding: 3px;
+    }
 
-.nome-time {
-  font-size: 13px;
-  margin-top: 4px;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-}
+    .nome-time {
+      font-size: 13px;
+      margin-top: 4px;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
 
-.versus {
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-}
+    .versus {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
 
     .tabs {
       display: flex;
@@ -115,7 +115,6 @@
       padding: 10px 10px 5px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       text-align: center;
-      
     }
 
     .info {
@@ -125,70 +124,71 @@
     }
 
     .escudos {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 15px; /* deixa mais centralizado */
-  margin: 10px 0 5px;
-}
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 15px;
+      margin: 10px 0 5px;
+    }
 
-.escudo-time {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  padding: 0;
-}
+    .escudo-time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      padding: 0;
+    }
 
-.escudo-time img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  margin-bottom: 6px;
-}
+    .escudo-time img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-bottom: 6px;
+    }
 
-.escudo-time span {
-  font-size: 13px;
-  color: #333;
-  text-align: center;
-  line-height: 1.2;
-  word-break: break-word;
-  margin-bottom: 0px;
-}
+    .escudo-time span {
+      font-size: 13px;
+      color: #333;
+      text-align: center;
+      line-height: 1.2;
+      word-break: break-word;
+      margin-bottom: 0px;
+    }
 
-.vs {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  font-size: 25px;
-  font-weight: 600;
-  font-family: 'Poppins', sans-serif;
-  line-height: 48px; /* altura do escudo */
-  min-width: 40px;
-}
+    .vs {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      font-size: 25px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      line-height: 48px;
+      min-width: 40px;
+    }
   </style>
 </head>
 <body>
   <h1>Canalhas FC - Jogos</h1>
-  
+
+  <!-- CARD DO PRÓXIMO JOGO -->
   <div class="highlight-card" id="proximo-jogo-destaque">
-  <div class="info-top">
-    <div id="data-prox">Data • Hora</div>
-    <div id="local-prox">Local</div>
-  </div>
-  <div class="highlight-content">
-    <div class="highlight-time">
-      <img id="escudoA" src="" alt="escudoA" />
-      <div class="nome-time" id="timeA">Time A</div>
+    <div class="info-top">
+      <div id="data-prox">Data • Hora</div>
+      <div id="local-prox">Local</div>
     </div>
-    <div class="versus">VS</div>
-    <div class="highlight-time">
-      <img id="escudoB" src="" alt="escudoB" />
-      <div class="nome-time" id="timeB">Time B</div>
+    <div class="highlight-content">
+      <div class="highlight-time">
+        <img id="escudoA" src="" alt="escudoA" />
+        <div class="nome-time" id="timeA">Time A</div>
+      </div>
+      <div class="versus">VS</div>
+      <div class="highlight-time">
+        <img id="escudoB" src="" alt="escudoB" />
+        <div class="nome-time" id="timeB">Time B</div>
+      </div>
     </div>
   </div>
-</div>
 
   <div class="tabs">
     <button id="btn-ultimos" class="tab-btn active">Últimos Jogos</button>
@@ -240,52 +240,51 @@
           jogosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
         });
     }
-    
+
     function carregarProximoDestaque() {
-  fetch("https://canalhas-api.vercel.app/api/agenda")
-    .then(res => res.json())
-    .then(data => {
-      const agora = new Date();
+      fetch("https://canalhas-api.vercel.app/api/agenda")
+        .then(res => res.json())
+        .then(data => {
+          const agora = new Date();
 
-      const jogosFuturos = (data.proximos || []).filter(jogo => {
-        if (!jogo.dataHora) return false;
-        const partes = jogo.dataHora.split("•")[1]?.trim().split(" ");
-        if (!partes || partes.length < 2) return false;
+          const jogosFuturos = (data.proximos || []).filter(jogo => {
+            if (!jogo.dataHora || !jogo.dataHora.includes("•")) return false;
+            const partes = jogo.dataHora.split("•")[1].trim().split(" ");
+            if (partes.length < 2) return false;
 
-        const [dia, mes, ano] = partes[0].split("/").map(Number);
-        const [hora, minuto] = partes[1].split(":").map(Number);
-        const dataJogo = new Date(ano, mes - 1, dia, hora, minuto);
+            const [dia, mes, ano] = partes[0].split("/").map(Number);
+            const [hora, minuto] = partes[1].split(":").map(Number);
+            const dataJogo = new Date(ano, mes - 1, dia, hora, minuto);
 
-        return dataJogo > agora;
-      });
+            return dataJogo > agora;
+          });
 
-      if (!jogosFuturos.length) {
-        document.getElementById("proximo-jogo-destaque").style.display = "none";
-        return;
-      }
+          if (!jogosFuturos.length) {
+            document.getElementById("proximo-jogo-destaque").style.display = "none";
+            return;
+          }
 
-      // Ordena por data mais próxima
-      jogosFuturos.sort((a, b) => {
-        const da = a.dataHora.split("•")[1].trim().split(" ");
-        const db = b.dataHora.split("•")[1].trim().split(" ");
-        const dateA = new Date(da[0].split("/").reverse().join("/") + " " + da[1]);
-        const dateB = new Date(db[0].split("/").reverse().join("/") + " " + db[1]);
-        return dateA - dateB;
-      });
+          jogosFuturos.sort((a, b) => {
+            const [d1, h1] = a.dataHora.split(/•/)[1].trim().split(" ");
+            const [d2, h2] = b.dataHora.split(/•/)[1].trim().split(" ");
+            const da = new Date(d1.split("/").reverse().join("/") + " " + h1);
+            const db = new Date(d2.split("/").reverse().join("/") + " " + h2);
+            return da - db;
+          });
 
-      const jogo = jogosFuturos[0];
-      document.getElementById("escudoA").src = jogo.escudoA;
-      document.getElementById("escudoB").src = jogo.escudoB;
-      document.getElementById("timeA").innerText = jogo.timeA;
-      document.getElementById("timeB").innerText = jogo.timeB;
-      document.getElementById("data-prox").innerText = jogo.dataHora;
-      document.getElementById("local-prox").innerText = jogo.local || "";
-      document.getElementById("proximo-jogo-destaque").style.display = "block";
-    })
-    .catch(() => {
-      document.getElementById("proximo-jogo-destaque").style.display = "none";
-    });
-}
+          const jogo = jogosFuturos[0];
+          document.getElementById("escudoA").src = jogo.escudoA;
+          document.getElementById("escudoB").src = jogo.escudoB;
+          document.getElementById("timeA").innerText = jogo.timeA;
+          document.getElementById("timeB").innerText = jogo.timeB;
+          document.getElementById("data-prox").innerText = jogo.dataHora;
+          document.getElementById("local-prox").innerText = jogo.local || "";
+          document.getElementById("proximo-jogo-destaque").style.display = "block";
+        })
+        .catch(() => {
+          document.getElementById("proximo-jogo-destaque").style.display = "none";
+        });
+    }
 
     carregarProximoDestaque();
 
