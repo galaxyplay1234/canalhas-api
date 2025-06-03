@@ -224,9 +224,6 @@
       `;
     }
 
-    
-    }
-
     function carregarJogos(tipo = "ultimos") {
       jogosDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
       fetch("https://canalhas-api.vercel.app/api/agenda")
@@ -242,6 +239,32 @@
         .catch(() => {
           jogosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
         });
+    }
+
+    function carregarProximoDestaque() {
+  fetch("https://canalhas-api.vercel.app/api/agenda")
+    .then(res => res.json())
+    .then(data => {
+      const jogosFuturos = data.proximos || [];
+
+      if (!jogosFuturos.length) {
+        document.getElementById("proximo-jogo-destaque").style.display = "none";
+        return;
+      }
+
+      const jogo = jogosFuturos[0];
+      document.getElementById("escudoA").src = jogo.escudoA;
+      document.getElementById("escudoB").src = jogo.escudoB;
+      document.getElementById("timeA").innerText = jogo.timeA;
+      document.getElementById("timeB").innerText = jogo.timeB;
+      document.getElementById("data-prox").innerText = jogo.dataHora;
+      document.getElementById("local-prox").innerText = jogo.local || "";
+      document.getElementById("proximo-jogo-destaque").style.display = "block";
+    })
+    .catch(() => {
+      document.getElementById("proximo-jogo-destaque").style.display = "none";
+    });
+}
 
     carregarProximoDestaque();
 
