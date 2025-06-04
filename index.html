@@ -20,60 +20,6 @@
       color: #222;
     }
 
-    .highlight-card {
-      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') no-repeat center center;
-      background-size: cover;
-      border-radius: 20px;
-      color: white;
-      padding: 15px 10px 10px;
-      margin: 0 auto 10px;
-      max-width: 600px;
-      text-align: center;
-      position: relative;
-    }
-
-    .info-top {
-      font-size: 13px;
-      color: #eee;
-      margin-bottom: 10px;
-    }
-
-    .highlight-content {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .highlight-time {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 90px;
-    }
-
-    .highlight-time img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: white;
-      padding: 3px;
-    }
-
-    .nome-time {
-      font-size: 13px;
-      margin-top: 4px;
-      color: white;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-    }
-
-    .versus {
-      font-size: 24px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-    }
-
     .tabs {
       display: flex;
       justify-content: center;
@@ -106,7 +52,6 @@
       padding: 15px;
       max-width: 600px;
       margin: 0 auto;
-      margim-bottom: 0px;
     }
 
     .card {
@@ -166,26 +111,38 @@
       line-height: 48px;
       min-width: 40px;
     }
+
+    #proximo-jogo-destaque {
+      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') center center / cover no-repeat;
+      color: white;
+    }
+
+    #proximo-jogo-destaque .info {
+      color: white;
+    }
+
+    #proximo-jogo-destaque .vs {
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
   </style>
 </head>
 <body>
   <h1>Canalhas FC - Jogos</h1>
 
-  <!-- CARD DO PRÓXIMO JOGO -->
-  <div class="highlight-card" id="proximo-jogo-destaque">
-    <div class="info-top">
-      <div id="data-prox"></div>
-      <div id="local-prox"></div>
-    </div>
-    <div class="highlight-content">
-      <div class="highlight-time">
+  <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
+  <div class="card" id="proximo-jogo-destaque" style="display: none;">
+    <div class="info" id="data-prox"></div>
+    <div class="info" id="local-prox"></div>
+    <div class="escudos">
+      <div class="escudo-time">
         <img id="escudoA" src="" alt="escudoA" />
-        <div class="nome-time" id="timeA"></div>
+        <span id="timeA"></span>
       </div>
-      <div class="versus"></div>
-      <div class="highlight-time">
+      <div class="vs" id="horaJogo"></div>
+      <div class="escudo-time">
         <img id="escudoB" src="" alt="escudoB" />
-        <div class="nome-time" id="timeB"></div>
+        <span id="timeB"></span>
       </div>
     </div>
   </div>
@@ -242,29 +199,37 @@
     }
 
     function carregarProximoDestaque() {
-  fetch("https://canalhas-api.vercel.app/api/agenda")
-    .then(res => res.json())
-    .then(data => {
-      const jogosFuturos = data.proximos || [];
+      fetch("https://canalhas-api.vercel.app/api/agenda")
+        .then(res => res.json())
+        .then(data => {
+          const agora = new Date();
 
-      if (!jogosFuturos.length) {
-        document.getElementById("proximo-jogo-destaque").style.display = "none";
-        return;
-      }
+          const jogos = (data.proximos || []).map(j => {
+            const [dia, mes, ano] = j.dataHora.split("•")[1].trim().split(" ")[0].split("/").map(Number);
+            const [hora, minuto] = j.dataHora.split("•")[1].trim().split(" ")[1].split(":").map(Number);
+            return {
+              ...j,
+              dataReal: new Date(ano, mes - 1, dia, hora, minuto)
+            };
+          }).filter(j => j.dataReal > agora);
 
-      const jogo = jogosFuturos[0];
-      document.getElementById("escudoA").src = jogo.escudoA;
-      document.getElementById("escudoB").src = jogo.escudoB;
-      document.getElementById("timeA").innerText = jogo.timeA;
-      document.getElementById("timeB").innerText = jogo.timeB;
-      document.getElementById("data-prox").innerText = jogo.dataHora;
-      document.getElementById("local-prox").innerText = jogo.local || "";
-      document.getElementById("proximo-jogo-destaque").style.display = "block";
-    })
-    .catch(() => {
-      document.getElementById("proximo-jogo-destaque").style.display = "none";
-    });
-}
+          if (!jogos.length) return;
+
+          const proximo = jogos.sort((a, b) => a.dataReal - b.dataReal)[0];
+
+          document.getElementById("escudoA").src = proximo.escudoA;
+          document.getElementById("escudoB").src = proximo.escudoB;
+          document.getElementById("timeA").innerText = proximo.timeA;
+          document.getElementById("timeB").innerText = proximo.timeB;
+          document.getElementById("data-prox").innerText = proximo.dataHora;
+          document.getElementById("local-prox").innerText = proximo.local || "";
+          document.getElementById("horaJogo").innerText = proximo.dataHora.split("•")[1].trim().split(" ")[1] || "VS";
+          document.getElementById("proximo-jogo-destaque").style.display = "block";
+        })
+        .catch(() => {
+          document.getElementById("proximo-jogo-destaque").style.display = "none";
+        });
+    }
 
     carregarProximoDestaque();
 
