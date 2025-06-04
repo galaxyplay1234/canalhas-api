@@ -114,7 +114,7 @@
 
     .highlight-wrapper {
   max-width: 600px;
-  margin: 0 auto 10px;
+  margin: 0 auto 15px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -130,54 +130,54 @@
 }
 
 .highlight-card {
-  background: url('https://cdn.pixabay.com/photo/2016/11/29/09/32/stadium-1867140_1280.jpg') center center no-repeat;
+  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') center center no-repeat;
   background-size: cover;
-  color: white;
   padding: 15px 10px;
   text-align: center;
+  color: white;
 }
 
-.highlight-info {
+.highlight-data,
+.highlight-local {
   font-size: 13px;
-  margin-bottom: 4px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
-.highlight-hour {
-  font-size: 24px;
+.highlight-hora {
+  font-size: 26px;
   font-weight: bold;
-  margin: 6px 0;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  margin: 4px 0 6px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
-.highlight-teams {
+.highlight-times {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-top: 10px;
 }
 
-.highlight-team {
+.highlight-time {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100px;
 }
 
-.highlight-team img {
-  width: 50px;
-  height: 50px;
+.highlight-time img {
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: white;
-  padding: 3px;
+  padding: 4px;
 }
 
-.highlight-team span {
+.highlight-time span {
   font-size: 13px;
-  margin-top: 4px;
   font-weight: bold;
   color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  margin-top: 4px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
 }
 
   </style>
@@ -189,17 +189,17 @@
   <div class="highlight-wrapper" id="proximo-jogo-wrapper" style="display: none;">
   <div class="highlight-header">Próximo Jogo</div>
   <div class="highlight-card">
-    <div class="highlight-info" id="data-prox"></div>
-    <div class="highlight-hour" id="hora-prox"></div>
-    <div class="highlight-info" id="local-prox"></div>
-    <div class="highlight-teams">
-      <div class="highlight-team">
-        <img id="escudoA" src="" alt="escudoA">
-        <span id="timeA">Time A</span>
+    <div class="highlight-data" id="data-prox"></div>
+    <div class="highlight-hora" id="hora-prox"></div>
+    <div class="highlight-local" id="local-prox"></div>
+    <div class="highlight-times">
+      <div class="highlight-time">
+        <img id="escudoA" src="" alt="escudoA" />
+        <span id="timeA"></span>
       </div>
-      <div class="highlight-team">
-        <img id="escudoB" src="" alt="escudoB">
-        <span id="timeB">Time B</span>
+      <div class="highlight-time">
+        <img id="escudoB" src="" alt="escudoB" />
+        <span id="timeB"></span>
       </div>
     </div>
   </div>
