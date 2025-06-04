@@ -271,7 +271,7 @@ function carregarProximoDestaque() {
 
       const partes = jogo.dataHora?.split("•");
       document.getElementById("data-prox").innerText = partes[0]?.trim() || "";
-      document.getElementById("hora-prox").innerText = partes[1]?.trim().split(" ")[1] || "";
+      document.getElementById("hora-prox").innerText = partes[1]?.trim() || "";
       document.getElementById("local-prox").innerText = jogo.local || "";
 
       document.getElementById("proximo-jogo-wrapper").style.display = "block";
