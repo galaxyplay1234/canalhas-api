@@ -55,16 +55,17 @@
     }
 
     .card {
-      background: #fff;
+      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') no-repeat center center;
+      background-size: cover;
       border-radius: 12px;
-      padding: 10px 10px 5px;
+      padding: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       text-align: center;
     }
 
     .info {
       font-size: 13px;
-      color: #555;
+      color: white;
       margin-bottom: 5px;
     }
 
@@ -90,11 +91,14 @@
       height: 48px;
       border-radius: 50%;
       margin-bottom: 6px;
+      background: white;
+      padding: 2px;
     }
 
     .escudo-time span {
       font-size: 13px;
-      color: #333;
+      color: white;
+      font-weight: bold;
       text-align: center;
       line-height: 1.2;
       word-break: break-word;
@@ -103,63 +107,20 @@
 
     .vs {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: center;
-      font-size: 25px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: bold;
       font-family: 'Poppins', sans-serif;
-      line-height: 48px;
+      color: white;
       min-width: 40px;
     }
-
-    .highlight-card {
-  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') no-repeat center center;
-  background-size: cover;
-  border-radius: 12px;
-  color: white;
-  padding: 10px;
-  margin: 0 auto 15px;
-  max-width: 600px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.highlight-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.highlight-time {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100px;
-}
-
-.nome-time {
-  font-size: 13px;
-  margin-top: 4px;
-  color: white !important;
-  text-align: center;
-  font-weight: bold;
-}
-
-.versus {
-  font-size: 15px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-  min-width: 70px;
-  text-align: center;
-}
   </style>
 </head>
 <body>
   <h1>Canalhas FC - Jogos</h1>
 
-  <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
+  <!-- Card fixo do próximo jogo -->
   <div class="card" id="proximo-jogo-destaque" style="display: none;">
     <div class="info" id="data-prox"></div>
     <div class="info" id="local-prox"></div>
@@ -168,7 +129,7 @@
         <img id="escudoA" src="" alt="escudoA" />
         <span id="timeA"></span>
       </div>
-      <div class="vs" id="horaJogo"></div>
+      <div class="vs" id="horaJogo">VS</div>
       <div class="escudo-time">
         <img id="escudoB" src="" alt="escudoB" />
         <span id="timeB"></span>
@@ -192,18 +153,18 @@
 
     function criarCard(jogo, isPassado = false) {
       return `
-        <div class="card">
-          <div class="info">${jogo.dataHora || ""}</div>
-          ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
+        <div class="card" style="background: #fff; color: #000;">
+          <div class="info" style="color:#555;">${jogo.dataHora || ""}</div>
+          ${jogo.local ? `<div class="info" style="color:#555;">${jogo.local}</div>` : ""}
           <div class="escudos">
             <div class="escudo-time">
               <img src="${jogo.escudoA}" alt="escudoA" />
-              <span>${jogo.timeA}</span>
+              <span style="color:#333;">${jogo.timeA}</span>
             </div>
-            <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
+            <div class="vs" style="color:#000;">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
             <div class="escudo-time">
               <img src="${jogo.escudoB}" alt="escudoB" />
-              <span>${jogo.timeB}</span>
+              <span style="color:#333;">${jogo.timeB}</span>
             </div>
           </div>
         </div>
@@ -228,29 +189,29 @@
     }
 
     function carregarProximoDestaque() {
-  fetch("https://canalhas-api.vercel.app/api/agenda")
-  
-    .then(res => res.json())
-    .then(data => {
-      const jogo = (data.proximos || [])[0];
-      if (!jogo) {
-        document.getElementById("proximo-jogo-destaque").style.display = "none";
-        return;
-      }
+      fetch("https://canalhas-api.vercel.app/api/agenda")
+        .then(res => res.json())
+        .then(data => {
+          const jogo = (data.proximos || [])[0];
+          if (!jogo) {
+            document.getElementById("proximo-jogo-destaque").style.display = "none";
+            return;
+          }
 
-      const jogo = jogosFuturos[0];
-document.getElementById("escudoA").src = jogo.escudoA;
-document.getElementById("escudoB").src = jogo.escudoB;
-document.getElementById("timeA").innerText = jogo.timeA;
-document.getElementById("timeB").innerText = jogo.timeB;
-document.getElementById("data-prox").innerText = jogo.dataHora;
-document.getElementById("local-prox").innerText = jogo.local || "";
-document.querySelector(".versus").innerText = jogo.dataHora.split("•")[1]?.trim().split(" ")[1] || "";
-    })
-    .catch(() => {
-      document.getElementById("proximo-jogo-destaque").style.display = "document.querySelector(".versus").innerText = jogo.dataHora.split("•")[1]?.trim().split(" ")[1] || "";
-    });
-}
+          document.getElementById("escudoA").src = jogo.escudoA;
+          document.getElementById("escudoB").src = jogo.escudoB;
+          document.getElementById("timeA").innerText = jogo.timeA;
+          document.getElementById("timeB").innerText = jogo.timeB;
+          document.getElementById("data-prox").innerText = jogo.dataHora;
+          document.getElementById("local-prox").innerText = jogo.local || "";
+          document.getElementById("horaJogo").innerText = jogo.dataHora.split("•")[1]?.trim().split(" ")[1] || "";
+
+          document.getElementById("proximo-jogo-destaque").style.display = "block";
+        })
+        .catch(() => {
+          document.getElementById("proximo-jogo-destaque").style.display = "none";
+        });
+    }
 
     carregarProximoDestaque();
 
