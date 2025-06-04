@@ -112,52 +112,75 @@
       min-width: 40px;
     }
 
-    .highlight-card {
-  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') no-repeat center center;
-  background-size: cover;
-  border-radius: 12px;
-  color: white;
-  padding: 10px;
-  margin: 0 auto 15px;
-  width: calc(100% - 50px);
+    .next-highlight-card {
   max-width: 600px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin: 0 auto 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.topo-banner {
+  background: #8b5e3c;
+  color: white;
+  font-size: 16px;
+  padding: 6px;
+  font-weight: bold;
   text-align: center;
 }
 
-.highlight-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
+.next-bg {
+  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') no-repeat center center;
+  background-size: cover;
+  padding: 10px;
+  text-align: center;
+  color: white;
 }
 
-.highlight-time {
+.next-info {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.next-hora {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.next-times {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.next-time {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100px;
 }
 
-.nome-time {
+.next-time img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  padding: 2px;
+  margin-bottom: 4px;
+}
+
+.next-time span {
   font-size: 13px;
-  margin-top: 4px;
-  color: white !important;
-  text-align: center;
-  font-weight: bold;
-}
-
-.versus {
-  font-size: 15px;
-  font-weight: bold;
-  color: white;
+  font-weight: 600;
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-  min-width: 70px;
-  text-align: center;
 }
 
-#proximo-jogo-destaque .escudo-time span {
-  color: white;
+.next-local {
+  font-size: 13px;
+  font-weight: 400;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
   </style>
@@ -166,21 +189,24 @@
   <h1>Canalhas FC - Jogos</h1>
 
   <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
-  <div class="highlight-card" id="proximo-jogo-destaque" style="display: none;">
-    <div class="info" id="data-prox"></div>
-    <div class="info" id="local-prox"></div>
-    <div class="escudos">
-      <div class="escudo-time">
+  <div class="next-highlight-card" id="proximo-jogo-destaque" style="display: none;">
+  <div class="topo-banner">Próximo Jogo</div>
+  <div class="next-bg">
+    <div class="next-info" id="data-prox"></div>
+    <div class="next-hora" id="horaJogo"></div>
+    <div class="next-times">
+      <div class="next-time">
         <img id="escudoA" src="" alt="escudoA" />
         <span id="timeA"></span>
       </div>
-      <div class="vs" id="horaJogo"></div>
-      <div class="escudo-time">
+      <div class="next-time">
         <img id="escudoB" src="" alt="escudoB" />
         <span id="timeB"></span>
       </div>
     </div>
+    <div class="next-local" id="local-prox"></div>
   </div>
+</div>
 
   <div class="tabs">
     <button id="btn-ultimos" class="tab-btn active">Últimos Jogos</button>
@@ -249,9 +275,8 @@ function carregarProximoDestaque() {
       document.getElementById("timeA").innerText = jogo.timeA;
       document.getElementById("timeB").innerText = jogo.timeB;
       document.getElementById("data-prox").innerText = jogo.dataHora;
-      document.getElementById("local-prox").innerText = jogo.local || "";
       document.getElementById("horaJogo").innerText = jogo.dataHora.split("•")[1]?.trim().split(" ")[1] || "";
-
+      document.getElementById("local-prox").innerText = jogo.local || "";
       document.getElementById("proximo-jogo-destaque").style.display = "block";
     })
     .catch(() => {
