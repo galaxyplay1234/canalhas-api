@@ -112,76 +112,72 @@
       min-width: 40px;
     }
 
-    .next-game-card {
+    .highlight-wrapper {
   max-width: 600px;
-  margin: 0 auto 15px;
+  margin: 0 auto 10px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.next-topo {
+.highlight-header {
   background: #8b5e3c;
   color: white;
-  padding: 6px;
-  text-align: center;
   font-weight: bold;
+  text-align: center;
+  padding: 8px;
   font-size: 16px;
 }
 
-.next-banner {
-  background: url('https://cdn.pixabay.com/photo/2016/11/29/09/32/stadium-1867140_1280.jpg') no-repeat center center;
+.highlight-card {
+  background: url('https://cdn.pixabay.com/photo/2016/11/29/09/32/stadium-1867140_1280.jpg') center center no-repeat;
   background-size: cover;
-  padding: 15px 10px 10px;
   color: white;
+  padding: 15px 10px;
   text-align: center;
 }
 
-.next-data {
+.highlight-info {
   font-size: 13px;
   margin-bottom: 4px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
-.next-hora {
-  font-size: 26px;
+.highlight-hour {
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 4px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  margin: 6px 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
 }
 
-.next-local {
-  font-size: 13px;
-  margin-bottom: 12px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-}
-
-.next-linha {
+.highlight-teams {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-top: 10px;
 }
 
-.next-time {
+.highlight-team {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100px;
 }
 
-.next-time img {
+.highlight-team img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background: white;
-  padding: 2px;
-  margin-bottom: 5px;
+  padding: 3px;
 }
 
-.next-time span {
+.highlight-team span {
   font-size: 13px;
-  font-weight: 600;
+  margin-top: 4px;
+  font-weight: bold;
   color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
   </style>
@@ -190,20 +186,20 @@
   <h1>Canalhas FC - Jogos</h1>
 
   <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
-  <div class="next-game-card" id="proximo-jogo-destaque" style="display: none;">
-  <div class="next-topo">Próximo Jogo</div>
-  <div class="next-banner">
-    <div class="next-data" id="data-prox">Data</div>
-    <div class="next-hora" id="horaJogo">Hora</div>
-    <div class="next-local" id="local-prox">Local</div>
-    <div class="next-linha">
-      <div class="next-time">
-        <img id="escudoA" src="" alt="Time A" />
-        <span id="timeA"></span>
+  <div class="highlight-wrapper" id="proximo-jogo-wrapper" style="display: none;">
+  <div class="highlight-header">Próximo Jogo</div>
+  <div class="highlight-card">
+    <div class="highlight-info" id="data-prox"></div>
+    <div class="highlight-hour" id="hora-prox"></div>
+    <div class="highlight-info" id="local-prox"></div>
+    <div class="highlight-teams">
+      <div class="highlight-team">
+        <img id="escudoA" src="" alt="escudoA">
+        <span id="timeA">Time A</span>
       </div>
-      <div class="next-time">
-        <img id="escudoB" src="" alt="Time B" />
-        <span id="timeB"></span>
+      <div class="highlight-team">
+        <img id="escudoB" src="" alt="escudoB">
+        <span id="timeB">Time B</span>
       </div>
     </div>
   </div>
@@ -272,14 +268,16 @@ function carregarProximoDestaque() {
       document.getElementById("escudoB").src = jogo.escudoB;
       document.getElementById("timeA").innerText = jogo.timeA;
       document.getElementById("timeB").innerText = jogo.timeB;
-      document.getElementById("data-prox").innerText = jogo.dataHora.split("•")[0].trim();
-      document.getElementById("horaJogo").innerText = jogo.dataHora.split("•")[1]?.trim().split(" ")[1] || "";
+
+      const partes = jogo.dataHora?.split("•");
+      document.getElementById("data-prox").innerText = partes[0]?.trim() || "";
+      document.getElementById("hora-prox").innerText = partes[1]?.trim().split(" ")[1] || "";
       document.getElementById("local-prox").innerText = jogo.local || "";
 
-      document.getElementById("proximo-jogo-destaque").style.display = "block";
+      document.getElementById("proximo-jogo-wrapper").style.display = "block";
     })
     .catch(() => {
-      document.getElementById("proximo-jogo-destaque").style.display = "none";
+      document.getElementById("proximo-jogo-wrapper").style.display = "none";
     });
 }
 
