@@ -112,48 +112,54 @@
       min-width: 40px;
     }
 
-    .next-highlight-card {
+    .next-game-card {
   max-width: 600px;
   margin: 0 auto 15px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.topo-banner {
+.next-topo {
   background: #8b5e3c;
   color: white;
-  font-size: 16px;
   padding: 6px;
+  text-align: center;
   font-weight: bold;
-  text-align: center;
+  font-size: 16px;
 }
 
-.next-bg {
-  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') no-repeat center center;
+.next-banner {
+  background: url('https://cdn.pixabay.com/photo/2016/11/29/09/32/stadium-1867140_1280.jpg') no-repeat center center;
   background-size: cover;
-  padding: 10px;
-  text-align: center;
+  padding: 15px 10px 10px;
   color: white;
+  text-align: center;
 }
 
-.next-info {
+.next-data {
   font-size: 13px;
-  font-weight: 500;
   margin-bottom: 4px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .next-hora {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
-.next-times {
+.next-local {
+  font-size: 13px;
+  margin-bottom: 12px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+.next-linha {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .next-time {
@@ -168,19 +174,14 @@
   border-radius: 50%;
   background: white;
   padding: 2px;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .next-time span {
   font-size: 13px;
   font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-}
-
-.next-local {
-  font-size: 13px;
-  font-weight: 400;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
 }
 
   </style>
@@ -189,22 +190,22 @@
   <h1>Canalhas FC - Jogos</h1>
 
   <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
-  <div class="next-highlight-card" id="proximo-jogo-destaque" style="display: none;">
-  <div class="topo-banner">Próximo Jogo</div>
-  <div class="next-bg">
-    <div class="next-info" id="data-prox"></div>
-    <div class="next-hora" id="horaJogo"></div>
-    <div class="next-times">
+  <div class="next-game-card" id="proximo-jogo-destaque" style="display: none;">
+  <div class="next-topo">Próximo Jogo</div>
+  <div class="next-banner">
+    <div class="next-data" id="data-prox">Data</div>
+    <div class="next-hora" id="horaJogo">Hora</div>
+    <div class="next-local" id="local-prox">Local</div>
+    <div class="next-linha">
       <div class="next-time">
-        <img id="escudoA" src="" alt="escudoA" />
+        <img id="escudoA" src="" alt="Time A" />
         <span id="timeA"></span>
       </div>
       <div class="next-time">
-        <img id="escudoB" src="" alt="escudoB" />
+        <img id="escudoB" src="" alt="Time B" />
         <span id="timeB"></span>
       </div>
     </div>
-    <div class="next-local" id="local-prox"></div>
   </div>
 </div>
 
@@ -265,18 +266,16 @@ function carregarProximoDestaque() {
     .then(res => res.json())
     .then(data => {
       const jogo = (data.proximos || [])[0];
-      if (!jogo) {
-        document.getElementById("proximo-jogo-destaque").style.display = "none";
-        return;
-      }
+      if (!jogo) return;
 
       document.getElementById("escudoA").src = jogo.escudoA;
       document.getElementById("escudoB").src = jogo.escudoB;
       document.getElementById("timeA").innerText = jogo.timeA;
       document.getElementById("timeB").innerText = jogo.timeB;
-      document.getElementById("data-prox").innerText = jogo.dataHora;
+      document.getElementById("data-prox").innerText = jogo.dataHora.split("•")[0].trim();
       document.getElementById("horaJogo").innerText = jogo.dataHora.split("•")[1]?.trim().split(" ")[1] || "";
       document.getElementById("local-prox").innerText = jogo.local || "";
+
       document.getElementById("proximo-jogo-destaque").style.display = "block";
     })
     .catch(() => {
@@ -284,7 +283,7 @@ function carregarProximoDestaque() {
     });
 }
 
-    carregarProximoDestaque();
+carregarProximoDestaque();
 
     btnUltimos.onclick = () => {
       btnUltimos.classList.add("active");
