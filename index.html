@@ -319,7 +319,8 @@ function carregarProximoDestaque() {
 
       const partes = jogo.dataHora?.split("•");
       document.getElementById("data-prox").innerText = partes[0]?.trim() || "";
-      document.getElementById("hora-prox").innerText = partes[1]?.trim() || "";
+      let horaFormatada = partes[1]?.trim().replace(":", "h") || "";
+      document.getElementById("hora-prox").innerText = horaFormatada;
       document.getElementById("local-prox").innerText = jogo.local || "";
 
       document.getElementById("proximo-jogo-wrapper").style.display = "block";
