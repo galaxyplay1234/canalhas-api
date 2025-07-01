@@ -372,25 +372,31 @@ function carregarArtilheiros() {
   const artilheirosDiv = document.getElementById("artilheiros");
   artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
 
-  fetch("https://canalhas-api.vercel.app/api/artilheiros")
+  fetch("https://canalhas-api.vercel.app/api/agenda")
     .then(res => res.json())
     .then(data => {
-      if (!data || !data.length) {
+      const lista = data.artilheiros;
+      if (!lista || !lista.length) {
         artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
         return;
       }
 
-      artilheirosDiv.innerHTML = data.map(jogador => `
+      artilheirosDiv.innerHTML = lista.map(j => `
         <div class="artilheiro-card">
-          <img src="${jogador.foto}" alt="${jogador.nome}" />
+          <img src="${j.foto}" alt="${j.nome}" />
           <div class="artilheiro-info">
-            <span class="nome">${jogador.nome}</span>
-            <span class="posicao">${jogador.posicao} • Camisa ${jogador.camisa}</span>
+            <span class="nome">${j.nome}</span>
+            <span class="posicao">${j.posicaoCamisa}</span>
           </div>
-        </div>
-      `).join("");
+          <div class="estatisticas">
+            <span>Gols: ${j.gols}</span><br/>
+            <span>Assist: ${j.assistencias}</span><br/>
+            <span>Jogos: ${j.jogos}</span>
+          </div>
+        </div>`).join("");
     })
-    .catch(() => {
+    .catch(err => {
+      console.error(err);
       artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
     });
 }
