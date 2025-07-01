@@ -293,168 +293,158 @@ min-width: 95px;
   <button id="btn-artilheiros" class="tab-btn">Artilheiros</button>
 </div>
 
-  <div id="jogos" class="cards">
-    <p style="text-align:center;">Carregando jogos...</p>
-  </div>
-  <div id="artilheiros" class="cards" style="display: none;">
+  <div id="ultimos-jogos" class="cards">
+  <p style="text-align:center;">Carregando últimos jogos...</p>
+</div>
+<div id="proximos-jogos" class="cards" style="display: none;">
+  <p style="text-align:center;">Carregando próximos jogos...</p>
+</div>
+<div id="artilheiros" class="cards" style="display: none;">
   <p style="text-align:center;">Carregando artilheiros...</p>
 </div>
 
   <script>
-    const jogosDiv = document.getElementById("jogos");
-    const btnUltimos = document.getElementById("btn-ultimos");
-    const btnProximos = document.getElementById("btn-proximos");
+  const ultimosDiv = document.getElementById("ultimos-jogos");
+  const proximosDiv = document.getElementById("proximos-jogos");
+  const artilheirosDiv = document.getElementById("artilheiros");
 
-    function criarCard(jogo, isPassado = false) {
-      return `
-        <div class="card">
-          <div class="info">${jogo.dataHora || ""}</div>
-          ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
-          <div class="escudos">
-            <div class="escudo-time">
-              <img src="${jogo.escudoA}" alt="escudoA" />
-              <span>${jogo.timeA}</span>
-            </div>
-            <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
-            <div class="escudo-time">
-              <img src="${jogo.escudoB}" alt="escudoB" />
-              <span>${jogo.timeB}</span>
-            </div>
+  const btnUltimos = document.getElementById("btn-ultimos");
+  const btnProximos = document.getElementById("btn-proximos");
+  const btnArtilheiros = document.getElementById("btn-artilheiros");
+
+  function criarCard(jogo, isPassado = false) {
+    return `
+      <div class="card">
+        <div class="info">${jogo.dataHora || ""}</div>
+        ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
+        <div class="escudos">
+          <div class="escudo-time">
+            <img src="${jogo.escudoA}" alt="escudoA" />
+            <span>${jogo.timeA}</span>
+          </div>
+          <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
+          <div class="escudo-time">
+            <img src="${jogo.escudoB}" alt="escudoB" />
+            <span>${jogo.timeB}</span>
           </div>
         </div>
-      `;
-    }
+      </div>`;
+  }
 
-    function carregarJogos(tipo = "ultimos") {
-      jogosDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
-      fetch("https://canalhas-api.vercel.app/api/agenda")
-        .then(res => res.json())
-        .then(data => {
-          const jogos = data[tipo];
-          if (!jogos || !jogos.length) {
-            jogosDiv.innerHTML = `<p style="text-align:center;">Nenhum jogo encontrado.</p>`;
-            return;
-          }
-          jogosDiv.innerHTML = jogos.map(j => criarCard(j, tipo === "ultimos")).join("");
-        })
-        .catch(() => {
-          jogosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
-        });
-    }
+  function carregarJogos(tipo = "ultimos") {
+    const targetDiv = tipo === "ultimos" ? ultimosDiv : proximosDiv;
+    targetDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
 
-    
-function carregarProximoDestaque() {
-  fetch("https://canalhas-api.vercel.app/api/agenda")
-    .then(res => res.json())
-    .then(data => {
-      const jogo = (data.proximos || [])[0];
-      if (!jogo) return;
+    fetch("https://canalhas-api.vercel.app/api/agenda")
+      .then(res => res.json())
+      .then(data => {
+        const jogos = data[tipo];
+        if (!jogos || !jogos.length) {
+          targetDiv.innerHTML = `<p style="text-align:center;">Nenhum jogo encontrado.</p>`;
+          return;
+        }
+        targetDiv.innerHTML = jogos.map(j => criarCard(j, tipo === "ultimos")).join("");
+      })
+      .catch(() => {
+        targetDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
+      });
+  }
 
-      document.getElementById("escudoA").src = jogo.escudoA;
-      document.getElementById("escudoB").src = jogo.escudoB;
-      document.getElementById("timeA").innerText = jogo.timeA;
-      document.getElementById("timeB").innerText = jogo.timeB;
+  function carregarProximoDestaque() {
+    fetch("https://canalhas-api.vercel.app/api/agenda")
+      .then(res => res.json())
+      .then(data => {
+        const jogo = (data.proximos || [])[0];
+        if (!jogo) return;
 
-      const partes = jogo.dataHora?.split("•");
-      document.getElementById("data-prox").innerText = partes[0]?.trim() || "";
-      let horaFormatada = partes[1]?.trim().replace(":", "h") || "";
-      document.getElementById("hora-prox").innerText = horaFormatada;
-      document.getElementById("local-prox").innerText = jogo.local || "";
+        document.getElementById("escudoA").src = jogo.escudoA;
+        document.getElementById("escudoB").src = jogo.escudoB;
+        document.getElementById("timeA").innerText = jogo.timeA;
+        document.getElementById("timeB").innerText = jogo.timeB;
 
-      document.getElementById("proximo-jogo-wrapper").style.display = "block";
-    })
-    .catch(() => {
-      document.getElementById("proximo-jogo-wrapper").style.display = "none";
-    });
-}
+        const partes = jogo.dataHora?.split("•");
+        document.getElementById("data-prox").innerText = partes[0]?.trim() || "";
+        let horaFormatada = partes[1]?.trim().replace(":", "h") || "";
+        document.getElementById("hora-prox").innerText = horaFormatada;
+        document.getElementById("local-prox").innerText = jogo.local || "";
 
-function carregarArtilheiros() {
-  const artilheirosDiv = document.getElementById("artilheiros");
-  artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
+        document.getElementById("proximo-jogo-wrapper").style.display = "block";
+      })
+      .catch(() => {
+        document.getElementById("proximo-jogo-wrapper").style.display = "none";
+      });
+  }
 
-  fetch("https://canalhas-api.vercel.app/api/agenda")
-    .then(res => res.json())
-    .then(data => {
-      const lista = data.artilheiros;
-      if (!lista || !lista.length) {
-        artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
-        return;
-      }
+  function carregarArtilheiros() {
+    artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
 
-      artilheirosDiv.innerHTML = lista.map(j => `
-        <div class="artilheiro-card">
-          <img src="${j.foto}" alt="${j.nome}" />
-          <div class="artilheiro-info">
-            <span class="nome">${j.nome}</span>
-            <span class="posicao">${j.posicaoCamisa}</span>
-          </div>
-          <div class="estatisticas">
-            <span>Gols: ${j.gols}</span><br/>
-            <span>Assist: ${j.assistencias}</span><br/>
-            <span>Jogos: ${j.jogos}</span>
-          </div>
-        </div>`).join("");
-    })
-    .catch(err => {
-      console.error(err);
-      artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
-    });
-}
+    fetch("https://canalhas-api.vercel.app/api/agenda")
+      .then(res => res.json())
+      .then(data => {
+        const lista = data.artilheiros;
+        if (!lista || !lista.length) {
+          artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
+          return;
+        }
 
+        artilheirosDiv.innerHTML = lista.map(j => `
+          <div class="artilheiro-card">
+            <img src="${j.foto}" alt="${j.nome}" />
+            <div class="artilheiro-info">
+              <span class="nome">${j.nome}</span>
+              <span class="posicao">${j.posicaoCamisa}</span>
+            </div>
+            <div class="estatisticas">
+              <span>Gols: ${j.gols}</span><br/>
+              <span>Assist: ${j.assistencias}</span><br/>
+              <span>Jogos: ${j.jogos}</span>
+            </div>
+          </div>`).join("");
+      })
+      .catch(() => {
+        artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
+      });
+  }
 
+  // Tabs
+  btnUltimos.onclick = () => {
+    btnUltimos.classList.add("active");
+    btnProximos.classList.remove("active");
+    btnArtilheiros.classList.remove("active");
 
-carregarProximoDestaque();
-
-    btnUltimos.onclick = () => {
-      btnUltimos.classList.add("active");
-      btnProximos.classList.remove("active");
-      carregarJogos("ultimos");
-    };
-
-    btnProximos.onclick = () => {
-      btnProximos.classList.add("active");
-      btnUltimos.classList.remove("active");
-      carregarJogos("proximos");
-    };
+    ultimosDiv.style.display = "block";
+    proximosDiv.style.display = "none";
+    artilheirosDiv.style.display = "none";
 
     carregarJogos("ultimos");
-    
-    const btnArtilheiros = document.getElementById("btn-artilheiros");
-const divArtilheiros = document.getElementById("artilheiros");
+  };
 
-btnArtilheiros.onclick = () => {
-  btnUltimos.classList.remove("active");
-  btnProximos.classList.remove("active");
-  btnArtilheiros.classList.add("active");
+  btnProximos.onclick = () => {
+    btnProximos.classList.add("active");
+    btnUltimos.classList.remove("active");
+    btnArtilheiros.classList.remove("active");
 
-  jogosDiv.style.display = "none";
-  divArtilheiros.style.display = "block";
+    ultimosDiv.style.display = "none";
+    proximosDiv.style.display = "block";
+    artilheirosDiv.style.display = "none";
 
-  carregarArtilheiros();
-};
+    carregarJogos("proximos");
+  };
 
-btnUltimos.onclick = () => {
-  btnUltimos.classList.add("active");
-  btnProximos.classList.remove("active");
-  btnArtilheiros.classList.remove("active");
+  btnArtilheiros.onclick = () => {
+    btnArtilheiros.classList.add("active");
+    btnUltimos.classList.remove("active");
+    btnProximos.classList.remove("active");
 
-  jogosDiv.style.display = "block";
-  divArtilheiros.style.display = "none";
+    ultimosDiv.style.display = "none";
+    proximosDiv.style.display = "none";
+    artilheirosDiv.style.display = "block";
+
+    carregarArtilheiros();
+  };
 
   carregarJogos("ultimos");
-};
-
-btnProximos.onclick = () => {
-  btnProximos.classList.add("active");
-  btnUltimos.classList.remove("active");
-  btnArtilheiros.classList.remove("active");
-
-  jogosDiv.style.display = "block";
-  divArtilheiros.style.display = "none";
-
-  carregarJogos("proximos");
-};
-    
-  </script>
+  carregarProximoDestaque();
+</script>
 </body>
 </html>
