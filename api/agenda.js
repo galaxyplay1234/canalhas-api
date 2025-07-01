@@ -63,27 +63,31 @@ module.exports = async (req, res) => {
     });
 
     // Artilheiros
-    $('div.flex.w-full.max-w-\\[60%\\].items-center').each((i, el) => {
-      const foto = $(el).find("img").attr("src");
-      const nome = $(el).find("p.truncate").text().trim();
-      const posicaoCamisa = $(el).find("p.text-xs").text().trim();
+$('div.flex.w-full.cursor-pointer.items-center.justify-between').each((i, el) => {
+  const jogadorEl = $(el);
 
-      const statsContainer = $(el).parent().find("div.flex.gap-4").first();
-      const stats = statsContainer.find("div");
+  // Foto do jogador
+  const foto = jogadorEl.find("img").attr("src") || "";
 
-      const jogos = $(stats.get(0)).find("span").first().text().trim();
-      const assist = $(stats.get(1)).find("span").first().text().trim();
-      const gols = $(stats.get(2)).find("span").first().text().trim();
+  // Nome e posição/camisa
+  const nome = jogadorEl.find("p.truncate.text-sm").text().trim();
+  const posicaoCamisa = jogadorEl.find("p.text-xs.text-neutral-low").first().text().trim();
 
-      artilheiros.push({
-        nome,
-        posicaoCamisa,
-        jogos: Number(jogos),
-        assistencias: Number(assist),
-        gols: Number(gols),
-        foto: foto.startsWith("/") ? "https://jogueiros.com" + foto : foto,
-      });
-    });
+  // Estatísticas
+  const estatisticas = jogadorEl.find("div.flex.flex-col.items-center");
+  const jogos = $(estatisticas.get(0)).find("p").last().text().trim();
+  const assistencias = $(estatisticas.get(1)).find("p").last().text().trim();
+  const gols = $(estatisticas.get(2)).find("p").last().text().trim();
+
+  artilheiros.push({
+    nome,
+    posicaoCamisa,
+    jogos: parseInt(jogos) || 0,
+    assistencias: parseInt(assistencias) || 0,
+    gols: parseInt(gols) || 0,
+    foto: foto.startsWith("/") ? "https://jogueiros.com" + foto : foto,
+  });
+});
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.json({ ultimos, proximos, artilheiros });
