@@ -226,6 +226,40 @@ min-width: 95px;
 }
 
 
+.artilheiro-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  gap: 12px;
+}
+
+.artilheiro-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eee;
+}
+
+.artilheiro-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.artilheiro-info .nome {
+  font-weight: bold;
+  color: #222;
+}
+
+.artilheiro-info .posicao {
+  font-size: 12px;
+  color: #777;
+}
+
+
   </style>
 </head>
 <body>
@@ -262,6 +296,9 @@ min-width: 95px;
   <div id="jogos" class="cards">
     <p style="text-align:center;">Carregando jogos...</p>
   </div>
+  <div id="artilheiros" class="cards" style="display: none;">
+  <p style="text-align:center;">Carregando artilheiros...</p>
+</div>
 
   <script>
     const jogosDiv = document.getElementById("jogos");
@@ -331,6 +368,35 @@ function carregarProximoDestaque() {
     });
 }
 
+function carregarArtilheiros() {
+  const artilheirosDiv = document.getElementById("artilheiros");
+  artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
+
+  fetch("https://canalhas-api.vercel.app/api/artilheiros")
+    .then(res => res.json())
+    .then(data => {
+      if (!data || !data.length) {
+        artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
+        return;
+      }
+
+      artilheirosDiv.innerHTML = data.map(jogador => `
+        <div class="artilheiro-card">
+          <img src="${jogador.foto}" alt="${jogador.nome}" />
+          <div class="artilheiro-info">
+            <span class="nome">${jogador.nome}</span>
+            <span class="posicao">${jogador.posicao} • Camisa ${jogador.camisa}</span>
+          </div>
+        </div>
+      `).join("");
+    })
+    .catch(() => {
+      artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
+    });
+}
+
+
+
 carregarProximoDestaque();
 
     btnUltimos.onclick = () => {
@@ -346,6 +412,43 @@ carregarProximoDestaque();
     };
 
     carregarJogos("ultimos");
+    
+    const btnArtilheiros = document.getElementById("btn-artilheiros");
+const divArtilheiros = document.getElementById("artilheiros");
+
+btnArtilheiros.onclick = () => {
+  btnUltimos.classList.remove("active");
+  btnProximos.classList.remove("active");
+  btnArtilheiros.classList.add("active");
+
+  jogosDiv.style.display = "none";
+  divArtilheiros.style.display = "block";
+
+  carregarArtilheiros();
+};
+
+btnUltimos.onclick = () => {
+  btnUltimos.classList.add("active");
+  btnProximos.classList.remove("active");
+  btnArtilheiros.classList.remove("active");
+
+  jogosDiv.style.display = "block";
+  divArtilheiros.style.display = "none";
+
+  carregarJogos("ultimos");
+};
+
+btnProximos.onclick = () => {
+  btnProximos.classList.add("active");
+  btnUltimos.classList.remove("active");
+  btnArtilheiros.classList.remove("active");
+
+  jogosDiv.style.display = "block";
+  divArtilheiros.style.display = "none";
+
+  carregarJogos("proximos");
+};
+    
   </script>
 </body>
 </html>
