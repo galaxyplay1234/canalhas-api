@@ -14,12 +14,26 @@
       padding: 0;
     }
 
-    h1 {
-      text-align: center;
-      padding: 20px;
-      font-size: 26px;
-      color: #222;
-    }
+    .logo-container {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 12px;
+}
+
+.logo-container img.logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  object-fit: cover;
+}
+
+.logo-container h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #222;
+  font-family: 'Arial', sans-serif;
+}
 
     .tabs {
       display: flex;
@@ -321,7 +335,10 @@
   </style>
 </head>
 <body>
-  <h1>Canalhas  FC - Agenda</h1>
+  <div class="logo-container">
+  <img src="https://jogueiros.com/_next/image?url=https%3A%2F%2Fd1zz32ev1utzz6.cloudfront.net%2FeyJidWNrZXQiOiJqb2d1ZWlyb3MtZmMtdXBsb2FkcyIsImtleSI6InRpbWUvNjFmNGM1ODUzNGY2YWQwMDE4MWNhODY1LzE2NDQxOTg0NzU0MjYuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4MCwiaGVpZ2h0Ijo4MCwiZml0IjoiY292ZXIifX19&w=256&q=75" alt="Logo Canalhas FC" class="logo" />
+  <h1>Canalhas FC - Agenda</h1>
+</div>
 
   <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
   <div class="highlight-wrapper" id="proximo-jogo-wrapper" style="display: none;">
