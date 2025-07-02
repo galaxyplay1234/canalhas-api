@@ -171,13 +171,14 @@
     }
 
     .highlight-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 100px;
-      gap: 2px;
-      margin-top: -30px;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* CENTRALIZA verticalmente */
+  min-width: 100px;
+  gap: 2px;
+  height: 100%; /* força ocupar a mesma altura dos times */
+}
 
     .highlight-data,
     .highlight-local {
