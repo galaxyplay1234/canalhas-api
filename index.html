@@ -380,35 +380,38 @@
     }
 
     function carregarArtilheiros() {
-      artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
+  artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
 
-      fetch("https://canalhas-api.vercel.app/api/agenda")
-        .then(res => res.json())
-        .then(data => {
-          const lista = data.artilheiros;
-          if (!lista || !lista.length) {
-            artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
-            return;
-          }
+  fetch("https://canalhas-api.vercel.app/api/agenda")
+    .then(res => res.json())
+    .then(data => {
+      const lista = data.artilheiros;
+      if (!lista || !lista.length) {
+        artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
+        return;
+      }
 
-          artilheirosDiv.innerHTML = lista.map(j => `
-            <div class="artilheiro-card">
-              <img src="${j.foto}" alt="${j.nome}" />
-              <div class="artilheiro-info">
-                <span class="nome">${j.nome}</span>
-                <span class="posicao">${j.posicaoCamisa}</span>
-              </div>
-              <div class="estatisticas">
-                <span>Gols: ${j.gols}</span><br/>
-                <span>Assist: ${j.assistencias}</span><br/>
-                <span>Jogos: ${j.jogos}</span>
-              </div>
-            </div>`).join("");
-        })
-        .catch(() => {
-          artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
-        });
-    }
+      artilheirosDiv.innerHTML = lista.map(j => {
+        const nomeLimpo = j.nome.replace(/\d+/g, '').trim();
+        return `
+          <div class="artilheiro-card">
+            <img src="${j.foto}" alt="${nomeLimpo}" />
+            <div class="artilheiro-info">
+              <span class="nome">${nomeLimpo}</span>
+              <span class="posicao">${j.posicaoCamisa}</span>
+            </div>
+            <div class="estatisticas">
+              <span>Gols: ${j.gols}</span><br/>
+              <span>Assist: ${j.assistencias}</span><br/>
+              <span>Jogos: ${j.jogos}</span>
+            </div>
+          </div>`;
+      }).join("");
+    })
+    .catch(() => {
+      artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
+    });
+}
 
     // Função para esconder todas as tabs
     function esconderTabs() {
