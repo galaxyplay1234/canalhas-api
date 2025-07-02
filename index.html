@@ -54,6 +54,18 @@
       margin: 0 auto;
     }
 
+    /* Nova classe para esconder sem perder o gap */
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      width: 100%;
+      height: auto;
+      transition: opacity 0.3s ease;
+    }
+
     .card {
       background: #fff;
       border-radius: 12px;
@@ -80,7 +92,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* força o topo */
+      justify-content: flex-start;
       width: 100%;
       padding: 0;
     }
@@ -112,154 +124,146 @@
       min-width: 87px;
     }
 
-  .highlight-wrapper {
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  margin: 0 auto 15px;
-  max-width: 600px;
-  padding: 0;
-  width: calc(100% - 30px); /* igual aos cards comuns */
-}
+    .highlight-wrapper {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: 0 auto 15px;
+      max-width: 600px;
+      padding: 0;
+      width: calc(100% - 30px);
+    }
 
-.highlight-header {
-  background: #8b5e3c;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  padding: 8px;
-  font-size: 16px;
-}
+    .highlight-header {
+      background: #8b5e3c;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      padding: 8px;
+      font-size: 16px;
+    }
 
-.highlight-card {
-  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') center center no-repeat;
-  background-size: cover;
-  padding: 5px 10px;
-  text-align: center;
-  color: white;
-  border-radius-bottom: 12px;
-}
+    .highlight-card {
+      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') center center no-repeat;
+      background-size: cover;
+      padding: 5px 10px;
+      text-align: center;
+      color: white;
+      border-radius-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
 
-.highlight-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 100px;
-  gap: 2px;
-  margin-top: -30px;
-}
+    .highlight-card::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+      border-radius: 0 0 12px 12px;
+    }
 
-.highlight-data,
-.highlight-local {
-  font-size: 13px;         /* deixa o texto mais compacto */
-  margin: 0px;           /* bem próximo verticalmente */
-  padding: 0px;
-  line-height: 1.1;        /* reduz a altura da linha */
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-}
+    .highlight-card > * {
+      position: relative;
+      z-index: 1;
+    }
 
-.highlight-hora {
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-  margin: -5px;
-  padding: 0px;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
-}
+    .highlight-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 100px;
+      gap: 2px;
+      margin-top: -30px;
+    }
 
+    .highlight-data,
+    .highlight-local {
+      font-size: 13px;
+      margin: 0px;
+      padding: 0px;
+      line-height: 1.1;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
 
-.highlight-times {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 10px;
-min-width: 95px;
-}
+    .highlight-hora {
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+      margin: -5px;
+      padding: 0px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    }
 
-.highlight-time {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* força o topo */
-  width: 25%;
-  min-height: 90px; /* mesma altura para todos */
-}
+    .highlight-times {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 10px;
+      min-width: 95px;
+    }
 
-.highlight-time img {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  padding: 4px;
-}
+    .highlight-time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 25%;
+      min-height: 90px;
+    }
 
-.highlight-time span {
-  font-size: 13px;
-  font-weight: bold;
-  color: white;
-  margin-top: 4px;
-  display: flex;
-  justify-content: center;        /* centraliza horizontalmente */
-  text-align: center;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
-}
+    .highlight-time img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      padding: 4px;
+    }
 
-.highlight-card {
-  position: relative;
-  z-index: 1;
-}
+    .highlight-time span {
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+      margin-top: 4px;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+    }
 
-.highlight-card::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* tom preto com opacidade */
-  z-index: 0;
-  border-radius: 0 0 12px 12px;
-}
+    .artilheiro-card {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      gap: 12px;
+    }
 
-/* Para garantir que o conteúdo fique visível acima da sombra */
-.highlight-card > * {
-  position: relative;
-  z-index: 1;
-}
+    .artilheiro-card img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #eee;
+    }
 
+    .artilheiro-info {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+    }
 
-.artilheiro-card {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  gap: 12px;
-}
+    .artilheiro-info .nome {
+      font-weight: bold;
+      color: #222;
+    }
 
-.artilheiro-card img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #eee;
-}
-
-.artilheiro-info {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-}
-
-.artilheiro-info .nome {
-  font-weight: bold;
-  color: #222;
-}
-
-.artilheiro-info .posicao {
-  font-size: 12px;
-  color: #777;
-}
-
-
+    .artilheiro-info .posicao {
+      font-size: 12px;
+      color: #777;
+    }
   </style>
 </head>
 <body>
@@ -267,184 +271,189 @@ min-width: 95px;
 
   <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
   <div class="highlight-wrapper" id="proximo-jogo-wrapper" style="display: none;">
-  <div class="highlight-header">Próximo Jogo</div>
-  <div class="highlight-card">
-    <div class="highlight-times">
-      <div class="highlight-time">
-        <img id="escudoA" src="" alt="escudoA" />
-        <span id="timeA"></span>
-      </div>
-      <div class="highlight-center">
-      <div class="highlight-data" id="data-prox"></div>
-    <div class="highlight-hora" id="hora-prox"></div>
-    <div class="highlight-local" id="local-prox"></div>
-    </div>
-      <div class="highlight-time">
-        <img id="escudoB" src="" alt="escudoB" />
-        <span id="timeB"></span>
+    <div class="highlight-header">Próximo Jogo</div>
+    <div class="highlight-card">
+      <div class="highlight-times">
+        <div class="highlight-time">
+          <img id="escudoA" src="" alt="escudoA" />
+          <span id="timeA"></span>
+        </div>
+        <div class="highlight-center">
+          <div class="highlight-data" id="data-prox"></div>
+          <div class="highlight-hora" id="hora-prox"></div>
+          <div class="highlight-local" id="local-prox"></div>
+        </div>
+        <div class="highlight-time">
+          <img id="escudoB" src="" alt="escudoB" />
+          <span id="timeB"></span>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <div class="tabs" style="position: sticky; top: 0; z-index: 1000;">
-  <button id="btn-ultimos" class="tab-btn active">Últimos Jogos</button>
-  <button id="btn-proximos" class="tab-btn">Próximos Jogos</button>
-  <button id="btn-artilheiros" class="tab-btn">Artilheiros</button>
-</div>
+    <button id="btn-ultimos" class="tab-btn active">Últimos Jogos</button>
+    <button id="btn-proximos" class="tab-btn">Próximos Jogos</button>
+    <button id="btn-artilheiros" class="tab-btn">Artilheiros</button>
+  </div>
 
   <div id="ultimos-jogos" class="cards">
-  <p style="text-align:center;">Carregando últimos jogos...</p>
-</div>
-<div id="proximos-jogos" class="cards" style="display: none;">
-  <p style="text-align:center;">Carregando próximos jogos...</p>
-</div>
-<div id="artilheiros" class="cards" style="display: none;">
-  <p style="text-align:center;">Carregando artilheiros...</p>
-</div>
+    <p style="text-align:center;">Carregando últimos jogos...</p>
+  </div>
+  <div id="proximos-jogos" class="cards hidden">
+    <p style="text-align:center;">Carregando próximos jogos...</p>
+  </div>
+  <div id="artilheiros" class="cards hidden">
+    <p style="text-align:center;">Carregando artilheiros...</p>
+  </div>
 
   <script>
-  const ultimosDiv = document.getElementById("ultimos-jogos");
-  const proximosDiv = document.getElementById("proximos-jogos");
-  const artilheirosDiv = document.getElementById("artilheiros");
+    const ultimosDiv = document.getElementById("ultimos-jogos");
+    const proximosDiv = document.getElementById("proximos-jogos");
+    const artilheirosDiv = document.getElementById("artilheiros");
 
-  const btnUltimos = document.getElementById("btn-ultimos");
-  const btnProximos = document.getElementById("btn-proximos");
-  const btnArtilheiros = document.getElementById("btn-artilheiros");
+    const btnUltimos = document.getElementById("btn-ultimos");
+    const btnProximos = document.getElementById("btn-proximos");
+    const btnArtilheiros = document.getElementById("btn-artilheiros");
 
-  function criarCard(jogo, isPassado = false) {
-    return `
-      <div class="card">
-        <div class="info">${jogo.dataHora || ""}</div>
-        ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
-        <div class="escudos">
-          <div class="escudo-time">
-            <img src="${jogo.escudoA}" alt="escudoA" />
-            <span>${jogo.timeA}</span>
-          </div>
-          <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
-          <div class="escudo-time">
-            <img src="${jogo.escudoB}" alt="escudoB" />
-            <span>${jogo.timeB}</span>
-          </div>
-        </div>
-      </div>`;
-  }
-
-  function carregarJogos(tipo = "ultimos") {
-    const targetDiv = tipo === "ultimos" ? ultimosDiv : proximosDiv;
-    targetDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
-
-    fetch("https://canalhas-api.vercel.app/api/agenda")
-      .then(res => res.json())
-      .then(data => {
-        const jogos = data[tipo];
-        if (!jogos || !jogos.length) {
-          targetDiv.innerHTML = `<p style="text-align:center;">Nenhum jogo encontrado.</p>`;
-          return;
-        }
-        targetDiv.innerHTML = jogos.map(j => criarCard(j, tipo === "ultimos")).join("");
-      })
-      .catch(() => {
-        targetDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
-      });
-  }
-
-  function carregarProximoDestaque() {
-    fetch("https://canalhas-api.vercel.app/api/agenda")
-      .then(res => res.json())
-      .then(data => {
-        const jogo = (data.proximos || [])[0];
-        if (!jogo) return;
-
-        document.getElementById("escudoA").src = jogo.escudoA;
-        document.getElementById("escudoB").src = jogo.escudoB;
-        document.getElementById("timeA").innerText = jogo.timeA;
-        document.getElementById("timeB").innerText = jogo.timeB;
-
-        const partes = jogo.dataHora?.split("•");
-        document.getElementById("data-prox").innerText = partes[0]?.trim() || "";
-        let horaFormatada = partes[1]?.trim().replace(":", "h") || "";
-        document.getElementById("hora-prox").innerText = horaFormatada;
-        document.getElementById("local-prox").innerText = jogo.local || "";
-
-        document.getElementById("proximo-jogo-wrapper").style.display = "block";
-      })
-      .catch(() => {
-        document.getElementById("proximo-jogo-wrapper").style.display = "none";
-      });
-  }
-
-  function carregarArtilheiros() {
-    artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
-
-    fetch("https://canalhas-api.vercel.app/api/agenda")
-      .then(res => res.json())
-      .then(data => {
-        const lista = data.artilheiros;
-        if (!lista || !lista.length) {
-          artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
-          return;
-        }
-
-        artilheirosDiv.innerHTML = lista.map(j => `
-          <div class="artilheiro-card">
-            <img src="${j.foto}" alt="${j.nome}" />
-            <div class="artilheiro-info">
-              <span class="nome">${j.nome}</span>
-              <span class="posicao">${j.posicaoCamisa}</span>
+    function criarCard(jogo, isPassado = false) {
+      return `
+        <div class="card">
+          <div class="info">${jogo.dataHora || ""}</div>
+          ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
+          <div class="escudos">
+            <div class="escudo-time">
+              <img src="${jogo.escudoA}" alt="escudoA" />
+              <span>${jogo.timeA}</span>
             </div>
-            <div class="estatisticas">
-              <span>Gols: ${j.gols}</span><br/>
-              <span>Assist: ${j.assistencias}</span><br/>
-              <span>Jogos: ${j.jogos}</span>
+            <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "VS"}</div>
+            <div class="escudo-time">
+              <img src="${jogo.escudoB}" alt="escudoB" />
+              <span>${jogo.timeB}</span>
             </div>
-          </div>`).join("");
-      })
-      .catch(() => {
-        artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
-      });
-  }
+          </div>
+        </div>`;
+    }
 
-  // Tabs
-  btnUltimos.onclick = () => {
-    btnUltimos.classList.add("active");
-    btnProximos.classList.remove("active");
-    btnArtilheiros.classList.remove("active");
+    function carregarJogos(tipo = "ultimos") {
+      const targetDiv = tipo === "ultimos" ? ultimosDiv : proximosDiv;
+      targetDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
 
-    ultimosDiv.style.display = "block";
-    proximosDiv.style.display = "none";
-    artilheirosDiv.style.display = "none";
+      fetch("https://canalhas-api.vercel.app/api/agenda")
+        .then(res => res.json())
+        .then(data => {
+          const jogos = data[tipo];
+          if (!jogos || !jogos.length) {
+            targetDiv.innerHTML = `<p style="text-align:center;">Nenhum jogo encontrado.</p>`;
+            return;
+          }
+          targetDiv.innerHTML = jogos.map(j => criarCard(j, tipo === "ultimos")).join("");
+        })
+        .catch(() => {
+          targetDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
+        });
+    }
 
+    function carregarProximoDestaque() {
+      fetch("https://canalhas-api.vercel.app/api/agenda")
+        .then(res => res.json())
+        .then(data => {
+          const jogo = (data.proximos || [])[0];
+          if (!jogo) return;
+
+          document.getElementById("escudoA").src = jogo.escudoA;
+          document.getElementById("escudoB").src = jogo.escudoB;
+          document.getElementById("timeA").innerText = jogo.timeA;
+          document.getElementById("timeB").innerText = jogo.timeB;
+
+          const partes = jogo.dataHora?.split("•");
+          document.getElementById("data-prox").innerText = partes[0]?.trim() || "";
+          let horaFormatada = partes[1]?.trim().replace(":", "h") || "";
+          document.getElementById("hora-prox").innerText = horaFormatada;
+          document.getElementById("local-prox").innerText = jogo.local || "";
+
+          document.getElementById("proximo-jogo-wrapper").style.display = "block";
+        })
+        .catch(() => {
+          document.getElementById("proximo-jogo-wrapper").style.display = "none";
+        });
+    }
+
+    function carregarArtilheiros() {
+      artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
+
+      fetch("https://canalhas-api.vercel.app/api/agenda")
+        .then(res => res.json())
+        .then(data => {
+          const lista = data.artilheiros;
+          if (!lista || !lista.length) {
+            artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
+            return;
+          }
+
+          artilheirosDiv.innerHTML = lista.map(j => `
+            <div class="artilheiro-card">
+              <img src="${j.foto}" alt="${j.nome}" />
+              <div class="artilheiro-info">
+                <span class="nome">${j.nome}</span>
+                <span class="posicao">${j.posicaoCamisa}</span>
+              </div>
+              <div class="estatisticas">
+                <span>Gols: ${j.gols}</span><br/>
+                <span>Assist: ${j.assistencias}</span><br/>
+                <span>Jogos: ${j.jogos}</span>
+              </div>
+            </div>`).join("");
+        })
+        .catch(() => {
+          artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
+        });
+    }
+
+    // Função para esconder todas as tabs
+    function esconderTabs() {
+      ultimosDiv.classList.add("hidden");
+      proximosDiv.classList.add("hidden");
+      artilheirosDiv.classList.add("hidden");
+    }
+
+    // Tabs
+    btnUltimos.onclick = () => {
+      btnUltimos.classList.add("active");
+      btnProximos.classList.remove("active");
+      btnArtilheiros.classList.remove("active");
+
+      esconderTabs();
+      ultimosDiv.classList.remove("hidden");
+
+      carregarJogos("ultimos");
+    };
+
+    btnProximos.onclick = () => {
+      btnProximos.classList.add("active");
+      btnUltimos.classList.remove("active");
+      btnArtilheiros.classList.remove("active");
+
+      esconderTabs();
+      proximosDiv.classList.remove("hidden");
+
+      carregarJogos("proximos");
+    };
+
+    btnArtilheiros.onclick = () => {
+      btnArtilheiros.classList.add("active");
+      btnUltimos.classList.remove("active");
+      btnProximos.classList.remove("active");
+
+      esconderTabs();
+      artilheirosDiv.classList.remove("hidden");
+
+      carregarArtilheiros();
+    };
+
+    // Carrega inicialmente últimos jogos e destaque
     carregarJogos("ultimos");
-  };
-
-  btnProximos.onclick = () => {
-    btnProximos.classList.add("active");
-    btnUltimos.classList.remove("active");
-    btnArtilheiros.classList.remove("active");
-
-    ultimosDiv.style.display = "none";
-    proximosDiv.style.display = "block";
-    artilheirosDiv.style.display = "none";
-
-    carregarJogos("proximos");
-  };
-
-  btnArtilheiros.onclick = () => {
-    btnArtilheiros.classList.add("active");
-    btnUltimos.classList.remove("active");
-    btnProximos.classList.remove("active");
-
-    ultimosDiv.style.display = "none";
-    proximosDiv.style.display = "none";
-    artilheirosDiv.style.display = "block";
-
-    carregarArtilheiros();
-  };
-
-  carregarJogos("ultimos");
-  carregarProximoDestaque();
-</script>
+    carregarProximoDestaque();
+  </script>
 </body>
 </html>
