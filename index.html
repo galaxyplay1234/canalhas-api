@@ -234,8 +234,7 @@
 
     .artilheiro-card {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center; /* CENTRALIZA imagem e texto verticalmente */
   background: #fff;
   border-radius: 12px;
   padding: 10px;
@@ -248,13 +247,16 @@
   height: 48px;
   border-radius: 50%;
   background: #eee;
+  flex-shrink: 0; /* impede de encolher */
 }
 
 .artilheiro-info {
   display: flex;
   flex-direction: column;
+  justify-content: center; /* CENTRALIZA verticalmente */
+  align-items: flex-start; /* ALINHA à esquerda */
   font-size: 14px;
-  justify-content: center;
+  min-width: 0;
 }
 
 .artilheiro-info .nome {
