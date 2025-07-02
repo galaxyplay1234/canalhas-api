@@ -198,12 +198,24 @@
     }
 
     .highlight-times {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-top: 10px;
-      min-width: 95px;
-    }
+  display: flex;
+  justify-content: center; /* <-- centraliza tudo */
+  align-items: flex-start;
+  gap: 40px; /* espaçamento fixo entre os lados */
+  margin-top: 10px;
+}
+
+.highlight-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 90px;
+  width: auto; /* <-- REMOVE o width fixo que estava empurrando */
+  max-width: 100px;
+  text-align: center;
+}
+
 
     .highlight-time span {
   font-size: 13px;
@@ -223,16 +235,7 @@
       padding: 4px;
     }
 
-    .highlight-time span {
-      font-size: 13px;
-      font-weight: bold;
-      color: white;
-      margin-top: 4px;
-      display: flex;
-      justify-content: center;
-      text-align: center;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.7);
-    }
+    
 
     .artilheiro-card {
   display: flex;
