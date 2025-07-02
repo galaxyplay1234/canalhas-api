@@ -199,10 +199,10 @@
 
     .highlight-times {
   display: flex;
-  justify-content: center; /* <-- centraliza tudo */
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 40px; /* espaçamento fixo entre os lados */
   margin-top: 10px;
+  padding: 0 20px; /* espaçamento lateral interno */
 }
 
 .highlight-time {
@@ -210,10 +210,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 90px;
-  width: auto; /* <-- REMOVE o width fixo que estava empurrando */
-  max-width: 100px;
   text-align: center;
+  flex: 1;
+  max-width: 100px;
+  min-height: 90px;
 }
 
 
@@ -222,10 +222,13 @@
   font-weight: bold;
   color: white;
   margin-top: 4px;
-  display: block;
+  line-height: 1.2;
+  min-height: 32px; /* força altura igual para todos */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0,0,0,0.7);
-  min-height: 32px; /* força alinhamento vertical entre os nomes */
 }
 
     .highlight-time img {
