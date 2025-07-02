@@ -438,6 +438,8 @@
       artilheirosDiv.innerHTML = lista.map(j => {
   // Remove números extras do nome
   const nomeLimpo = j.nome.replace(/\d+/g, '').trim();
+
+  return `
   <div class="artilheiro-card">
     <img src="${j.foto}" alt="${j.nome}" />
     <div class="artilheiro-conteudo">
