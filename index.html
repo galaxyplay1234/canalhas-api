@@ -441,10 +441,10 @@
 
   return `
   <div class="artilheiro-card">
-    <img src="${j.foto}" alt="${j.nome}" />
+    <img src="${j.foto}" alt="${nomeLimpo}" />
     <div class="artilheiro-conteudo">
       <div class="artilheiro-info">
-        <span class="nome">${j.nome}</span>
+        <span class="nome">${nomeLimpo}</span>
         <span class="posicao">${j.posicaoCamisa}</span>
       </div>
       <div class="artilheiro-estatisticas">
@@ -461,7 +461,8 @@
       </div>
     </div>
   </div>
-`).join("");
+  `;
+}).join("");
     })
     .catch(() => {
       artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
