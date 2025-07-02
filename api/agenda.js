@@ -63,34 +63,43 @@ module.exports = async (req, res) => {
     });
 
     // Artilheiros
-$('div.flex.w-full.cursor-pointer.items-center.justify-between').each((i, el) => {
-  const jogadorEl = $(el);
+    $('div.flex.w-full.cursor-pointer.items-center.justify-between').each((i, el) => {
+      const jogadorEl = $(el);
 
-  // Foto do jogador
-  const foto = jogadorEl.find("img").attr("src") || "";
+      // Foto do jogador
+      const foto = jogadorEl.find("img").attr("src") || "";
 
-  // Nome e posição/camisa
-  const nome = jogadorEl.find("p.truncate.text-sm").text().trim();
-  const posicaoCamisa = jogadorEl.find("p.text-xs.text-neutral-low").first().text().trim();
+      // Nome e posição/camisa
+      const nome = jogadorEl.find("p.truncate.text-sm").text().trim();
+      const posicaoCamisa = jogadorEl.find("p.text-xs.text-neutral-low").first().text().trim();
 
-  // Estatísticas
-  const estatisticas = jogadorEl.find("div.flex.flex-col.items-center");
-  const jogos = $(estatisticas.get(0)).find("p").last().text().trim();
-  const assistencias = $(estatisticas.get(1)).find("p").last().text().trim();
-  const gols = $(estatisticas.get(2)).find("p").last().text().trim();
+      // Estatísticas
+      const estatisticas = jogadorEl.find("div.flex.flex-col.items-center");
+      const jogos = $(estatisticas.get(0)).find("p").last().text().trim();
+      const assistencias = $(estatisticas.get(1)).find("p").last().text().trim();
+      const gols = $(estatisticas.get(2)).find("p").last().text().trim();
 
-  artilheiros.push({
-    nome,
-    posicaoCamisa,
-    jogos: parseInt(jogos) || 0,
-    assistencias: parseInt(assistencias) || 0,
-    gols: parseInt(gols) || 0,
-    foto: foto.startsWith("/") ? "https://jogueiros.com" + foto : foto,
-  });
-});
+      artilheiros.push({
+        nome,
+        posicaoCamisa,
+        jogos: parseInt(jogos) || 0,
+        assistencias: parseInt(assistencias) || 0,
+        gols: parseInt(gols) || 0,
+        foto: foto.startsWith("/") ? "https://jogueiros.com" + foto : foto,
+      });
+    });
+
+    // Extrair desempenho últimos 5 jogos (bolinhas)
+    const desempenho = [];
+    $('.stats.flex.items-center.gap-1 > div.flex.items-center > div').each((i, el) => {
+      const bolinha = $(el);
+      if (bolinha.hasClass('bg-states-success')) desempenho.push('V');
+      else if (bolinha.hasClass('bg-states-error')) desempenho.push('D');
+      else desempenho.push('E'); // empate ou outro estado
+    });
 
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.json({ ultimos, proximos, artilheiros });
+    res.json({ ultimos, proximos, artilheiros, desempenho });
 
   } catch (err) {
     console.error(err);
