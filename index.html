@@ -298,6 +298,16 @@
   min-width: 50px;
   text-align: center;
 }
+
+.artilheiro-conteudo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+}
+
+
   </style>
 </head>
 <body>
@@ -425,20 +435,19 @@
         return;
       }
 
-      artilheirosDiv.innerHTML = lista.map(j => {
-  const nomeLimpo = j.nome.replace(/\d+/g, '').trim();
-  return `
-    <div class="artilheiro-card">
-      <img src="${j.foto}" alt="${nomeLimpo}" />
+      artilheirosDiv.innerHTML = lista.map(j => `
+  <div class="artilheiro-card">
+    <img src="${j.foto}" alt="${j.nome}" />
+    <div class="artilheiro-conteudo">
       <div class="artilheiro-info">
-        <span class="nome">${nomeLimpo}</span>
+        <span class="nome">${j.nome}</span>
         <span class="posicao">${j.posicaoCamisa}</span>
       </div>
       <div class="artilheiro-estatisticas">
         <div class="labels">
-          <span>Gols</span>
-          <span>Assist</span>
-          <span>Jogos</span>
+          <span>Gols:</span>
+          <span>Assist:</span>
+          <span>Jogos:</span>
         </div>
         <div class="valores">
           <span>${j.gols}</span>
@@ -446,8 +455,9 @@
           <span>${j.jogos}</span>
         </div>
       </div>
-    </div>`;
-}).join("");
+    </div>
+  </div>
+`).join("");
     })
     .catch(() => {
       artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
