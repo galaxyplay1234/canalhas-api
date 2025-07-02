@@ -35,6 +35,38 @@
   font-family: 'Arial', sans-serif;
 }
 
+.bolinhas-container {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.bolinha {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bolinha.V {
+  background-color: #4CAF50; /* verde */
+}
+
+.bolinha.D {
+  background-color: #f44336; /* vermelho */
+}
+
+.bolinha.E {
+  background-color: #9e9e9e; /* cinza */
+}
+
+
     .tabs {
       display: flex;
       justify-content: center;
@@ -338,6 +370,7 @@
   <div class="logo-container">
   <img src="https://jogueiros.com/_next/image?url=https%3A%2F%2Fd1zz32ev1utzz6.cloudfront.net%2FeyJidWNrZXQiOiJqb2d1ZWlyb3MtZmMtdXBsb2FkcyIsImtleSI6InRpbWUvNjFmNGM1ODUzNGY2YWQwMDE4MWNhODY1LzE2NDQxOTg0NzU0MjYuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4MCwiaGVpZ2h0Ijo4MCwiZml0IjoiY292ZXIifX19&w=256&q=75" alt="Logo Canalhas FC" class="logo" />
   <h1>Canalhas FC - Agenda</h1>
+  <div id="desempenho-bolinhas" class="bolinhas-container"></div>
 </div>
 
   <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
@@ -540,6 +573,24 @@
     // Carrega inicialmente últimos jogos e destaque
     carregarJogos("ultimos");
     carregarProximoDestaque();
+    carregarDesempenho();
+    
+    function carregarDesempenho() {
+  fetch("https://canalhas-api.vercel.app/api/agenda")
+    .then(res => res.json())
+    .then(data => {
+      const desempenho = data.desempenho || [];
+      const container = document.getElementById("desempenho-bolinhas");
+      if (!container) return;
+
+      container.innerHTML = desempenho.slice(0, 5).map(letra => `
+        <div class="bolinha ${letra}">${letra}</div>
+      `).join("");
+    })
+    .catch(() => {
+      console.warn("Erro ao carregar desempenho.");
+    });
+}
   </script>
 </body>
 </html>
