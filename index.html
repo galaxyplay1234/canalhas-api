@@ -234,48 +234,67 @@
 
     .artilheiro-card {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
   background: #fff;
   border-radius: 12px;
-  padding: 10px 15px;
+  padding: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  gap: 15px;
+  gap: 12px;
 }
 
 .artilheiro-card img {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: #eee;
-  flex-shrink: 0;
 }
 
 .artilheiro-info {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  font-size: 14px;
   justify-content: center;
 }
 
 .artilheiro-info .nome {
   font-weight: bold;
-  font-size: 16px;
   color: #222;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .artilheiro-info .posicao {
-  font-size: 13px;
+  font-size: 12px;
   color: #777;
 }
 
 .artilheiro-estatisticas {
   display: flex;
-  gap: 15px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  white-space: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.artilheiro-estatisticas .labels,
+.artilheiro-estatisticas .valores {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.artilheiro-estatisticas .labels span {
+  font-size: 12px;
+  color: #777;
+  min-width: 50px;
+  text-align: center;
+}
+
+.artilheiro-estatisticas .valores span {
+  font-size: 15px;
+  font-weight: bold;
+  color: #222;
+  min-width: 50px;
+  text-align: center;
 }
   </style>
 </head>
@@ -405,21 +424,28 @@
       }
 
       artilheirosDiv.innerHTML = lista.map(j => {
-        const nomeLimpo = j.nome.replace(/\d+/g, '').trim();
-        return `
-          <div class="artilheiro-card">
-            <img src="${j.foto}" alt="${nomeLimpo}" />
-            <div class="artilheiro-info">
-              <span class="nome">${nomeLimpo}</span>
-              <span class="posicao">${j.posicaoCamisa}</span>
-            </div>
-            <div class="artilheiro-estatisticas">
-              <span>Gols: ${j.gols}</span>
-              <span>Assist: ${j.assistencias}</span>
-              <span>Jogos: ${j.jogos}</span>
-            </div>
-          </div>`;
-      }).join("");
+  const nomeLimpo = j.nome.replace(/\d+/g, '').trim();
+  return `
+    <div class="artilheiro-card">
+      <img src="${j.foto}" alt="${nomeLimpo}" />
+      <div class="artilheiro-info">
+        <span class="nome">${nomeLimpo}</span>
+        <span class="posicao">${j.posicaoCamisa}</span>
+      </div>
+      <div class="artilheiro-estatisticas">
+        <div class="labels">
+          <span>Gols</span>
+          <span>Assist</span>
+          <span>Jogos</span>
+        </div>
+        <div class="valores">
+          <span>${j.gols}</span>
+          <span>${j.assistencias}</span>
+          <span>${j.jogos}</span>
+        </div>
+      </div>
+    </div>`;
+}).join("");
     })
     .catch(() => {
       artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
